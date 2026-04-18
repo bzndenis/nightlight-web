@@ -54,7 +54,7 @@
                         <td>{{ $link->name }}</td>
                         <td>{{ $link->url }}</td>
                         <td>
-                            <form method="POST" action="{{ route('admin.footer.link.delete', $link->id) }}" style="display: inline;">
+                            <form method="POST" action="{{ route('admin.footer.link.delete', $link->id) }}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this link?');">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn-danger">Delete</button>

@@ -30,9 +30,11 @@
             @csrf
             <div class="form-group" data-aos="fade-up" data-aos-delay="100" style="text-align: center;">
                 <div id="dropZoneArea" style="border: 3px dashed #8815d8; border-radius: 16px; padding: 3rem; background: rgba(136, 21, 216, 0.05); cursor: pointer; transition: all 0.3s ease;">
-                    <div style="font-size: 4rem; margin-bottom: 1rem;">📁</div>
-                    <p style="font-size: 1.6rem; color: #46305e; margin-bottom: 1rem;">Drag & Drop image here</p>
-                    <p style="font-size: 1.4rem; color: #999;">or click to browse</p>
+                    <div id="dropZoneContent">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">📁</div>
+                        <p style="font-size: 1.6rem; color: #46305e; margin-bottom: 1rem;">Drag & Drop image here</p>
+                        <p style="font-size: 1.4rem; color: #999;">or click to browse</p>
+                    </div>
                     <input type="file" id="image" name="image" accept="image/*" required style="display: none;">
                 </div>
             </div>
@@ -54,7 +56,7 @@
                         <td>{{ $image->id }}</td>
                         <td><img src="{{ asset($image->path) }}" alt="Gallery Image" style="max-width: 150px; border-radius: 8px;"></td>
                         <td>
-                            <form method="POST" action="{{ route('admin.gallery.image.delete', $image->filename) }}" style="display: inline;">
+                            <form method="POST" action="{{ route('admin.gallery.image.delete', $image->filename) }}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this image?');">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn-danger">Delete</button>
@@ -74,6 +76,7 @@
     <script>
         // Drag and drop functionality
         const dropZoneArea = document.getElementById('dropZoneArea');
+        const dropZoneContent = document.getElementById('dropZoneContent');
         const fileInput = document.getElementById('image');
         const dropZone = document.getElementById('dropZone');
 
@@ -85,7 +88,7 @@
         // File input change
         fileInput.addEventListener('change', function(e) {
             if (e.target.files.length > 0) {
-                dropZoneArea.innerHTML = `
+                dropZoneContent.innerHTML = `
                     <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
                     <p style="font-size: 1.6rem; color: #46305e;">${e.target.files[0].name}</p>
                     <p style="font-size: 1.4rem; color: #999;">Click to change</p>
@@ -119,7 +122,7 @@
             const files = e.dataTransfer.files;
             if (files.length > 0) {
                 fileInput.files = files;
-                dropZoneArea.innerHTML = `
+                dropZoneContent.innerHTML = `
                     <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
                     <p style="font-size: 1.6rem; color: #46305e;">${files[0].name}</p>
                     <p style="font-size: 1.4rem; color: #999;">Click to change</p>

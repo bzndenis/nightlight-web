@@ -51,7 +51,7 @@
                         <td>{{ Str::limit($member->quote, 50) }}</td>
                         <td>
                             <a href="{{ route('admin.team.edit', $member->id) }}" style="margin-right: 0.5rem;">Edit</a>
-                            <form method="POST" action="{{ route('admin.team.delete', $member->id) }}" style="display: inline;">
+                            <form method="POST" action="{{ route('admin.team.delete', $member->id) }}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this team member?');">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn-danger">Delete</button>
