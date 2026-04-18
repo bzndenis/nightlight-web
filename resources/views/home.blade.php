@@ -181,18 +181,25 @@
             </div>
 
             <div class="col-eight gallery-grid">
-                <div class="row">
+                <div class="gallery-slider-container" style="overflow-x: auto; overflow-y: hidden; cursor: grab; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none;">
+                    <style>
+                        .gallery-slider-container::-webkit-scrollbar {
+                            display: none;
+                        }
+                    </style>
+                    <div class="gallery-slider" id="gallerySlider" style="display: flex; gap: 1rem;">
 
                     @if(isset($galleryImages) && count($galleryImages) > 0)
+
                         @foreach($galleryImages as $index => $image)
-                            <div class="col-four gallery-item" data-aos="fade-up">
+                            <div class="gallery-item" style="flex: 0 0 calc(25% - 0.75rem); min-width: 200px;" data-aos="fade-up">
                                 <div class="gallery-placeholder" style="background: none; border: none; height: auto;">
-                                    <img src="{{ asset($image) }}" alt="Gallery Photo {{ $index + 1 }}" class="gallery-image">
+                                    <img data-src="{{ asset($image) }}" alt="Gallery Photo {{ $index + 1 }}" class="gallery-image lazy-load" onclick="openLightbox('{{ asset($image) }}', {{ $index }})" style="cursor: pointer; width: 100%; height: auto; border-radius: 8px; object-fit: cover; background: #f0f0f0; min-height: 200px;">
                                 </div>
                             </div>
                         @endforeach
                     @else
-                        <div class="col-four gallery-item" data-aos="fade-up">
+                        <div class="gallery-item" style="flex: 0 0 calc(25% - 0.75rem); min-width: 200px;" data-aos="fade-up">
                             <div class="gallery-placeholder">
                                 <div class="placeholder-box">
                                     <span class="placeholder-text">Photo 1</span>
@@ -200,7 +207,7 @@
                             </div>
                         </div>
 
-                        <div class="col-four gallery-item" data-aos="fade-up">
+                        <div class="gallery-item" style="flex: 0 0 calc(25% - 0.75rem); min-width: 200px;" data-aos="fade-up">
                             <div class="gallery-placeholder">
                                 <div class="placeholder-box">
                                     <span class="placeholder-text">Photo 2</span>
@@ -208,7 +215,7 @@
                             </div>
                         </div>
 
-                        <div class="col-four gallery-item" data-aos="fade-up">
+                        <div class="gallery-item" style="flex: 0 0 calc(25% - 0.75rem); min-width: 200px;" data-aos="fade-up">
                             <div class="gallery-placeholder">
                                 <div class="placeholder-box">
                                     <span class="placeholder-text">Photo 3</span>
@@ -216,7 +223,7 @@
                             </div>
                         </div>
 
-                        <div class="col-four gallery-item" data-aos="fade-up">
+                        <div class="gallery-item" style="flex: 0 0 calc(25% - 0.75rem); min-width: 200px;" data-aos="fade-up">
                             <div class="gallery-placeholder">
                                 <div class="placeholder-box">
                                     <span class="placeholder-text">Photo 4</span>
@@ -224,7 +231,7 @@
                             </div>
                         </div>
 
-                        <div class="col-four gallery-item" data-aos="fade-up">
+                        <div class="gallery-item" style="flex: 0 0 calc(25% - 0.75rem); min-width: 200px;" data-aos="fade-up">
                             <div class="gallery-placeholder">
                                 <div class="placeholder-box">
                                     <span class="placeholder-text">Photo 5</span>
@@ -232,7 +239,7 @@
                             </div>
                         </div>
 
-                        <div class="col-four gallery-item" data-aos="fade-up">
+                        <div class="gallery-item" style="flex: 0 0 calc(25% - 0.75rem); min-width: 200px;" data-aos="fade-up">
                             <div class="gallery-placeholder">
                                 <div class="placeholder-box">
                                     <span class="placeholder-text">Photo 6</span>
@@ -241,6 +248,7 @@
                         </div>
                     @endif
 
+                    </div>
                 </div>
             </div> <!-- end gallery-grid -->
 
@@ -332,5 +340,212 @@
         </div>
 
     </section> end download     -->
+
+<!-- Lightbox Modal -->
+<div id="lightbox" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 9999; justify-content: center; align-items: center;">
+    <button onclick="closeLightbox()" style="position: absolute; top: 20px; right: 30px; font-size: 40px; color: white; background: none; border: none; cursor: pointer; z-index: 10000;">&times;</button>
+    <button onclick="prevImage()" style="position: absolute; left: 30px; font-size: 40px; color: white; background: none; border: none; cursor: pointer; z-index: 10000;">&#10094;</button>
+    <button onclick="nextImage()" style="position: absolute; right: 30px; font-size: 40px; color: white; background: none; border: none; cursor: pointer; z-index: 10000;">&#10095;</button>
+    <img id="lightbox-img" src="" alt="Gallery Preview" style="max-width: 90%; max-height: 90%; object-fit: contain;">
+</div>
+
+<script>
+    const galleryImages = @json(array_map(function($img) { return asset($img); }, $galleryImages ?? []));
+    let currentImageIndex = 0;
+
+    function openLightbox(imageSrc, index) {
+        currentImageIndex = index;
+        document.getElementById('lightbox-img').src = imageSrc;
+        document.getElementById('lightbox').style.display = 'flex';
+    }
+
+    function closeLightbox() {
+        document.getElementById('lightbox').style.display = 'none';
+    }
+
+    function nextImage() {
+        currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
+        document.getElementById('lightbox-img').src = galleryImages[currentImageIndex];
+    }
+
+    function prevImage() {
+        currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+        document.getElementById('lightbox-img').src = galleryImages[currentImageIndex];
+    }
+
+    // Draggable slider functionality with smooth momentum
+    const slider = document.getElementById('gallerySlider');
+    const sliderContainer = slider.parentElement;
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+    let isDragging = false;
+    let velocity = 0;
+    let animationFrame;
+    let lastX;
+    let autoScrollInterval;
+    let scrollDirection = 1; // 1 for right, -1 for left
+
+    // Auto-scroll functionality
+    function startAutoScroll() {
+        if (autoScrollInterval) clearInterval(autoScrollInterval);
+        autoScrollInterval = setInterval(() => {
+            if (!isDown && !isDragging) {
+                sliderContainer.scrollLeft += 2 * scrollDirection;
+
+                // Reverse direction when reaching end
+                if (sliderContainer.scrollLeft >= sliderContainer.scrollWidth - sliderContainer.clientWidth) {
+                    scrollDirection = -1;
+                }
+
+                // Reverse direction when reaching beginning
+                if (sliderContainer.scrollLeft <= 0) {
+                    scrollDirection = 1;
+                }
+            }
+        }, 20);
+    }
+
+    function stopAutoScroll() {
+        if (autoScrollInterval) {
+            clearInterval(autoScrollInterval);
+            autoScrollInterval = null;
+        }
+    }
+
+    // Start auto-scroll on load
+    startAutoScroll();
+
+    // Pause auto-scroll on hover
+    sliderContainer.addEventListener('mouseenter', stopAutoScroll);
+    sliderContainer.addEventListener('mouseleave', () => {
+        if (!isDown) startAutoScroll();
+    });
+
+    // Mouse events
+    sliderContainer.addEventListener('mousedown', (e) => {
+        isDown = true;
+        isDragging = false;
+        sliderContainer.style.cursor = 'grabbing';
+        startX = e.pageX - sliderContainer.offsetLeft;
+        scrollLeft = sliderContainer.scrollLeft;
+        lastX = startX;
+        velocity = 0;
+        stopAutoScroll();
+        cancelAnimationFrame(animationFrame);
+    });
+
+    sliderContainer.addEventListener('mouseleave', () => {
+        if (isDown) {
+            isDown = false;
+            sliderContainer.style.cursor = 'grab';
+            applyMomentum();
+        }
+    });
+
+    sliderContainer.addEventListener('mouseup', () => {
+        isDown = false;
+        sliderContainer.style.cursor = 'grab';
+        if (!isDragging) {
+            // It was a click, not a drag
+        } else {
+            applyMomentum();
+        }
+    });
+
+    sliderContainer.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        isDragging = true;
+        const x = e.pageX - sliderContainer.offsetLeft;
+        const walk = (x - startX) * 2;
+        velocity = x - lastX;
+        lastX = x;
+        sliderContainer.scrollLeft = scrollLeft - walk;
+    });
+
+    // Touch events for mobile
+    sliderContainer.addEventListener('touchstart', (e) => {
+        isDown = true;
+        isDragging = false;
+        startX = e.touches[0].pageX - sliderContainer.offsetLeft;
+        scrollLeft = sliderContainer.scrollLeft;
+        lastX = startX;
+        velocity = 0;
+        stopAutoScroll();
+        cancelAnimationFrame(animationFrame);
+    });
+
+    sliderContainer.addEventListener('touchend', () => {
+        isDown = false;
+        if (isDragging) {
+            applyMomentum();
+        }
+    });
+
+    sliderContainer.addEventListener('touchmove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        isDragging = true;
+        const x = e.touches[0].pageX - sliderContainer.offsetLeft;
+        const walk = (x - startX) * 2;
+        velocity = x - lastX;
+        lastX = x;
+        sliderContainer.scrollLeft = scrollLeft - walk;
+    });
+
+    // Momentum effect for smooth scrolling
+    function applyMomentum() {
+        if (Math.abs(velocity) > 0.5) {
+            sliderContainer.scrollLeft -= velocity * 2;
+            velocity *= 0.95;
+            animationFrame = requestAnimationFrame(applyMomentum);
+        } else {
+            // Resume auto-scroll after momentum stops
+            startAutoScroll();
+        }
+    }
+
+    // Lazy loading with Intersection Observer
+    const lazyImages = document.querySelectorAll('.lazy-load');
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.style.opacity = '0';
+                img.style.transition = 'opacity 0.3s ease';
+                img.src = img.dataset.src;
+                img.onload = function() {
+                    img.style.opacity = '1';
+                };
+                img.classList.remove('lazy-load');
+                observer.unobserve(img);
+            }
+        });
+    }, {
+        rootMargin: '50px 0px',
+        threshold: 0.1
+    });
+
+    lazyImages.forEach(img => imageObserver.observe(img));
+
+    // Close lightbox on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeLightbox();
+        } else if (e.key === 'ArrowRight') {
+            nextImage();
+        } else if (e.key === 'ArrowLeft') {
+            prevImage();
+        }
+    });
+
+    // Close lightbox when clicking outside the image
+    document.getElementById('lightbox').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeLightbox();
+        }
+    });
+</script>
 
 @include('partials.footer')

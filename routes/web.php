@@ -7,27 +7,31 @@ Route::get('/', function () {
     // Get announcement from database
     $announcement = App\Models\Announcement::where('is_active', true)->first();
 
-    // Get gallery settings and images from database
+    // Get gallery settings and images from database (limit to 6)
     $gallery = App\Models\Gallery::where('is_active', true)->first();
     $galleryImages = [];
-    $galleryItems = App\Models\Gallery::where('is_active', true)->orderBy('order')->get();
+    $galleryItems = App\Models\Gallery::where('is_active', true)->orderBy('order')->limit(6)->get();
     foreach ($galleryItems as $item) {
         if ($item->image_path) {
             $galleryImages[] = $item->image_path;
         }
     }
 
-    // Also include images from public directory (for compatibility with uploaded files)
+    // Also include images from public directory (for compatibility with uploaded files, limit to 6 total)
     $publicPath = public_path();
-    if (is_dir($publicPath)) {
+    if (is_dir($publicPath) && count($galleryImages) < 6) {
         $files = scandir($publicPath);
         foreach ($files as $file) {
             // Only include image files that aren't already in the database
             if ($file !== '.' && $file !== '..' && preg_match('/\.(jpg|jpeg|png|gif)$/i', $file) && !in_array($file, $galleryImages)) {
                 $galleryImages[] = $file;
+                if (count($galleryImages) >= 6) break;
             }
         }
     }
+
+    // Limit to 6 images total
+    $galleryImages = array_slice($galleryImages, 0, 6);
 
     // Get team members from database
     $teamMembers = App\Models\TeamMember::where('is_active', true)->orderBy('order')->get();
@@ -146,21 +150,26 @@ Route::prefix('admin')->name('admin.')->group(function () {
         
         Route::post('/gallery/image', function (Illuminate\Http\Request $request) {
             try {
-                // Validate the uploaded file
+                // Validate the uploaded files
                 $request->validate([
-                    'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120'
+                    'images' => 'required|array',
+                    'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:5120'
                 ]);
 
-                // Handle file upload
-                if ($request->hasFile('image')) {
-                    $image = $request->file('image');
-                    $imageName = time() . '_' . $image->getClientOriginalName();
-                    $image->move(public_path(), $imageName);
+                // Handle file uploads
+                if ($request->hasFile('images')) {
+                    $uploadedCount = 0;
+                    $images = $request->file('images');
+                    foreach ($images as $image) {
+                        $imageName = time() . '_' . $uploadedCount . '_' . $image->getClientOriginalName();
+                        $image->move(public_path(), $imageName);
+                        $uploadedCount++;
+                    }
 
-                    return back()->with('success', 'Image uploaded successfully: ' . $imageName);
+                    return back()->with('success', $uploadedCount . ' image(s) uploaded successfully');
                 }
 
-                return back()->with('error', 'No image uploaded');
+                return back()->with('error', 'No images uploaded');
             } catch (\Exception $e) {
                 return back()->with('error', 'Upload failed: ' . $e->getMessage());
             }

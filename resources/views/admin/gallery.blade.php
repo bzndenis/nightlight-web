@@ -32,13 +32,13 @@
                 <div id="dropZoneArea" style="border: 3px dashed #8815d8; border-radius: 16px; padding: 3rem; background: rgba(136, 21, 216, 0.05); cursor: pointer; transition: all 0.3s ease;">
                     <div id="dropZoneContent">
                         <div style="font-size: 4rem; margin-bottom: 1rem;">📁</div>
-                        <p style="font-size: 1.6rem; color: #46305e; margin-bottom: 1rem;">Drag & Drop image here</p>
-                        <p style="font-size: 1.4rem; color: #999;">or click to browse</p>
+                        <p style="font-size: 1.6rem; color: #46305e; margin-bottom: 1rem;">Drag & Drop images here</p>
+                        <p style="font-size: 1.4rem; color: #999;">or click to browse (multiple files supported)</p>
                     </div>
-                    <input type="file" id="image" name="image" accept="image/*" required style="display: none;">
+                    <input type="file" id="image" name="images[]" accept="image/*" multiple required style="display: none;">
                 </div>
             </div>
-            <button type="submit" data-aos="fade-up" data-aos-delay="200" style="width: 100%;">Add Image</button>
+            <button type="submit" data-aos="fade-up" data-aos-delay="200" style="width: 100%;">Upload Images</button>
         </form>
 
         <table data-aos="fade-up" data-aos-delay="300">
@@ -88,9 +88,11 @@
         // File input change
         fileInput.addEventListener('change', function(e) {
             if (e.target.files.length > 0) {
+                const fileCount = e.target.files.length;
+                const fileText = fileCount === 1 ? e.target.files[0].name : `${fileCount} images selected`;
                 dropZoneContent.innerHTML = `
                     <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
-                    <p style="font-size: 1.6rem; color: #46305e;">${e.target.files[0].name}</p>
+                    <p style="font-size: 1.6rem; color: #46305e;">${fileText}</p>
                     <p style="font-size: 1.4rem; color: #999;">Click to change</p>
                 `;
             }
@@ -122,9 +124,11 @@
             const files = e.dataTransfer.files;
             if (files.length > 0) {
                 fileInput.files = files;
+                const fileCount = files.length;
+                const fileText = fileCount === 1 ? files[0].name : `${fileCount} images selected`;
                 dropZoneContent.innerHTML = `
                     <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
-                    <p style="font-size: 1.6rem; color: #46305e;">${files[0].name}</p>
+                    <p style="font-size: 1.6rem; color: #46305e;">${fileText}</p>
                     <p style="font-size: 1.4rem; color: #999;">Click to change</p>
                 `;
             }
