@@ -174,9 +174,9 @@
         <div class="row pricing-content">
 
             <div class="col-four pricing-intro">
-                <h1 class="intro-header" data-aos="fade-up">GALLERY :</h1>
+                <h1 class="intro-header" data-aos="fade-up">{{ $gallery->title ?? 'GALLERY' }} :</h1>
 
-                <h5 data-aos="fade-up">Explore our gallery featuring memorable moments from guild events, raids, and community gatherings. See our adventures and achievements captured in screenshots.
+                <h5 data-aos="fade-up">{{ $gallery->description ?? 'Explore our gallery featuring memorable moments from guild events, raids, and community gatherings. See our adventures and achievements captured in screenshots.' }}
                 </h5>
             </div>
 

@@ -7,7 +7,8 @@ Route::get('/', function () {
     // Get announcement from database
     $announcement = App\Models\Announcement::where('is_active', true)->first();
 
-    // Get gallery images from database
+    // Get gallery settings and images from database
+    $gallery = App\Models\Gallery::where('is_active', true)->first();
     $galleryImages = [];
     $galleryItems = App\Models\Gallery::where('is_active', true)->orderBy('order')->get();
     foreach ($galleryItems as $item) {
@@ -35,7 +36,7 @@ Route::get('/', function () {
     $footerSettings = App\Models\FooterSetting::first();
     $footerLinks = App\Models\FooterLink::where('is_active', true)->orderBy('order')->get();
 
-    return view('home', compact('announcement', 'galleryImages', 'teamMembers', 'footerSettings', 'footerLinks'));
+    return view('home', compact('announcement', 'gallery', 'galleryImages', 'teamMembers', 'footerSettings', 'footerLinks'));
 });
 
 // Admin routes
