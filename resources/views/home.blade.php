@@ -199,55 +199,59 @@
                 </h5>
             </div>
 
-            <div class="col-eight pricing-table">
+            <div class="col-eight gallery-grid">
                 <div class="row">
 
-                    <div class="col-six plan-wrap">
-                        <div class="plan-block" data-aos="fade-up"> 
-
-                            <div class="plan-top-part">
-                                <h3 class="plan-block-title">Bank Transfer</h3>
-								<p class="plan-block-per">Minimum Amount:</p>
-                                <p class="plan-block-price"><sup>R$</sup>10</p>
+                    <div class="col-four gallery-item" data-aos="fade-up">
+                        <div class="gallery-placeholder">
+                            <div class="placeholder-box">
+                                <span class="placeholder-text">Photo 1</span>
                             </div>
-
-                            <div class="plan-bottom-part">
-                                <ul class="plan-block-features">
-                                    <li><span>Bank</span> Your Bank Name</li>
-                                    <li><span>Account Name</span> Account Holder Name</li>	
-								    <li><span>Account Number</span> Account Number</li>
-                                    <li><span>Bank Code</span> Bank Code</li>	
-                                </ul>
-
-                                <a class="button button-primary large" href="">Send Receipt</a>
-                            </div>  
-                     
                         </div>
-                    </div> <!-- end plan-wrap -->
+                    </div>
 
-                    <div class="col-six plan-wrap">
-                        <div class="plan-block primary" data-aos="fade-up">
-
-                            <div class="plan-top-part">
-                                <h3 class="plan-block-title">Digital Payment</h3>
-                                <img src="{{ asset('images/qr-code.jpeg') }}">
+                    <div class="col-four gallery-item" data-aos="fade-up">
+                        <div class="gallery-placeholder">
+                            <div class="placeholder-box">
+                                <span class="placeholder-text">Photo 2</span>
                             </div>
-
-                            <div class="plan-bottom-part">
-                                <ul class="plan-block-features">
-                                    <li><span>Convenience</span> Quick and easy payment</li>
-                                    <li><span>Secure</span> Safe transaction process</li>
-                                    <li><span>Flexible</span> Multiple payment options</li>										
-                                </ul>
-
-                                <a class="button button-primary large" href="">Send Receipt</a>
-                            </div>
-
                         </div>
-                    </div> <!-- end plan-wrap -->
+                    </div>
 
-                </div>               
-            </div> <!-- end pricing-table -->
+                    <div class="col-four gallery-item" data-aos="fade-up">
+                        <div class="gallery-placeholder">
+                            <div class="placeholder-box">
+                                <span class="placeholder-text">Photo 3</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-four gallery-item" data-aos="fade-up">
+                        <div class="gallery-placeholder">
+                            <div class="placeholder-box">
+                                <span class="placeholder-text">Photo 4</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-four gallery-item" data-aos="fade-up">
+                        <div class="gallery-placeholder">
+                            <div class="placeholder-box">
+                                <span class="placeholder-text">Photo 5</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-four gallery-item" data-aos="fade-up">
+                        <div class="gallery-placeholder">
+                            <div class="placeholder-box">
+                                <span class="placeholder-text">Photo 6</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div> <!-- end gallery-grid -->
 
         </div> <!-- end pricing-content -->
     </section> <!-- end pricing -->
@@ -270,31 +274,115 @@
 
                     <div>
                         <p>
-                        Life is a play that does not allow rehearsals.
+                        Leading NightLight Guild to greatness together.
                         </p> 
 
                         <div class="testimonial-author">
                                 <img src="{{ asset('images/avatars/user-01.jpg') }}" alt="Author image">
                                 <div class="author-info">
-                                    [Admin] NightLight
-                                    <span class="position">General Administrator.</span>
+                                    xOrc
+                                    <span class="position">Guild Master</span>
                                 </div>
                         </div>                 
                     </div> 
 
                     <div>
                         <p>
-                        If you get irritated by critics, you can be sure that almost always they are right.
+                        Supporting the guild and ensuring our community thrives.
                         </p>
 
                         <div class="testimonial-author">
                                 <img src="{{ asset('images/avatars/user-02.jpg') }}" alt="Author image">
                                 <div class="author-info">
-                                    [GM] NightLight
-                                    <span>Game Master, Event Maker, Support</span>
+                                    Azunyan
+                                    <span class="position">Vice Guild Master</span>
                                 </div>
                         </div>                                         
-                    </div> 
+                    </div>
+
+                    <div>
+                        <p>
+                        Building a strong and united community.
+                        </p>
+
+                        <div class="testimonial-author">
+                                <img src="{{ asset('images/avatars/user-01.jpg') }}" alt="Author image">
+                                <div class="author-info">
+                                    BangJack
+                                    <span class="position">Vice Guild Master</span>
+                                </div>
+                        </div>                                         
+                    </div>
+
+                    <div>
+                        <p>
+                        Bringing charm and energy to our guild.
+                        </p>
+
+                        <div class="testimonial-author">
+                                <img src="{{ asset('images/avatars/user-02.jpg') }}" alt="Author image">
+                                <div class="author-info">
+                                    Nyxia
+                                    <span class="position">Charisma Baby</span>
+                                </div>
+                        </div>                                         
+                    </div>
+
+                    <div>
+                        <p>
+                        Keeping order and supporting our members.
+                        </p>
+
+                        <div class="testimonial-author">
+                                <img src="{{ asset('images/avatars/user-01.jpg') }}" alt="Author image">
+                                <div class="author-info">
+                                    NIGATRON
+                                    <span class="position">Officer</span>
+                                </div>
+                        </div>                                         
+                    </div>
+
+                    <div>
+                        <p>
+                        Guiding members through their journey.
+                        </p>
+
+                        <div class="testimonial-author">
+                                <img src="{{ asset('images/avatars/user-02.jpg') }}" alt="Author image">
+                                <div class="author-info">
+                                    shiroe
+                                    <span class="position">Officer</span>
+                                </div>
+                        </div>                                         
+                    </div>
+
+                    <div>
+                        <p>
+                        Supporting and organizing guild activities.
+                        </p>
+
+                        <div class="testimonial-author">
+                                <img src="{{ asset('images/avatars/user-01.jpg') }}" alt="Author image">
+                                <div class="author-info">
+                                    ReilaArdea
+                                    <span class="position">Officer</span>
+                                </div>
+                        </div>                                         
+                    </div>
+
+                    <div>
+                        <p>
+                        Leading our members to victory.
+                        </p>
+
+                        <div class="testimonial-author">
+                                <img src="{{ asset('images/avatars/user-02.jpg') }}" alt="Author image">
+                                <div class="author-info">
+                                    Moonshinee
+                                    <span class="position">Commander</span>
+                                </div>
+                        </div>                                         
+                    </div>
 
                 </div> <!-- end slides -->
 
@@ -306,7 +394,7 @@
 
     <!-- download
     ================================================== -->
-    <section id="download">
+    <!-- <section id="download">
 
         <div class="row">
             <div class="col-full">
@@ -332,7 +420,7 @@
             </div>
         </div>
 
-    </section> <!-- end download -->    
+    </section> end download     -->
 
     <!-- footer
     ================================================== -->
@@ -349,7 +437,7 @@
                     NightLight is a gaming guild community dedicated to bringing players together through friendship, teamwork, and shared adventures. We believe in creating a welcoming environment for all gamers.
                     </p>
 
-                    <ul class="footer-social-list">
+                    <!-- <ul class="footer-social-list">
                         <li>
                             <a href="#"><i class="fa fa-facebook-square"></i></a>
                         </li>
@@ -365,7 +453,7 @@
                         <li>
                             <a href="#"><i class="fa fa-instagram"></i></a>
                         </li>
-                    </ul>
+                    </ul> -->
                     
                     
                 </div> <!-- end footer-info -->
@@ -391,11 +479,13 @@
                             
                 </div> <!-- end footer-site-links --> 
 
-                <div class="col-four md-1-2 tab-full footer-subscribe">
+                <!-- <div class="col-four md-1-2 tab-full footer-subscribe">
 
                     <div class="fb-page" data-href="https://www.facebook.com/CronusEmulator/" data-tabs="timeline" data-width="400" data-height="250" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="true"><blockquote cite="https://www.facebook.com/CronusEmulator/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/CronusEmulator/">Cronus-Emulator</a></blockquote></div>	      		
                             
-                </div> <!-- end footer-subscribe -->         
+                </div>  -->
+                
+                <!-- end footer-subscribe -->         
 
             </div> <!-- /row -->
         </div> <!-- end footer-main -->
