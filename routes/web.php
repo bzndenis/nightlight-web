@@ -88,14 +88,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
             $announcement = App\Models\Announcement::first();
             if ($announcement) {
                 $announcement->fill([
-                    'title' => $request->title,
-                    'content' => $request->content
+                    'title' => $request->input('title'),
+                    'content' => $request->input('content')
                 ]);
                 $announcement->save();
             } else {
                 App\Models\Announcement::create([
-                    'title' => $request->title,
-                    'content' => $request->content,
+                    'title' => $request->input('title'),
+                    'content' => $request->input('content'),
                     'is_active' => true
                 ]);
             }
