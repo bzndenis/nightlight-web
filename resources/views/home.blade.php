@@ -95,6 +95,13 @@
                         Teamwork.
                     </h1>
 
+                    <div class="discord-button-wrapper" data-aos="fade-up">
+                        <a href="https://dsc.gg/nightlightt" target="_blank" class="button button-primary discord-btn">
+                            <i class="fa fa-discord" aria-hidden="true"></i>
+                            Join Discord
+                        </a>
+                    </div>
+
                     <div class="buttons" data-aos="fade-up">
                         <a href="#download" class="smoothscroll button stroke">
                             <span class="icon-circle-down" aria-hidden="true"></span>
@@ -118,7 +125,7 @@
         </div> <!-- end home-content -->
 
         <ul class="home-social-list">
-            <li>
+            <!-- <li>
                 <a href="#"><i class="fa fa-facebook-square"></i></a>
             </li>
             <li>
@@ -129,7 +136,7 @@
             </li>
             <li>
                 <a href="#"><i class="fa fa-youtube-play"></i></a>
-            </li>
+            </li> -->
         </ul>
         <!-- end home-social-list -->
 
