@@ -473,7 +473,7 @@
                         <li><a href="#about">Information</a></li>
                         <li><a href="#pricing">Gallery</a></li>
                         <li><a href="#testimonials">Team</a></li>
-                        <li><a href="#download">Resources</a></li>
+                        <!-- <li><a href="#download">Resources</a></li> -->
                         <li><a href="#">Join Guild</a></li>
                     </ul>	      		
                             
