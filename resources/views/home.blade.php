@@ -64,7 +64,7 @@
 			<ul class="header-main-nav">
 				<li class="current"><a class="smoothscroll"  href="#home" title="home">Home</a></li>
                 <li><a class="smoothscroll"  href="#about" title="about">Information</a></li>
-				<li><a class="smoothscroll"  href="#pricing" title="pricing">Support</a></li>
+				<li><a class="smoothscroll"  href="#pricing" title="pricing">Gallery</a></li>
 				<li><a class="smoothscroll"  href="#testimonials" title="testimonials">Team</a></li>
 				<li><a class="smoothscroll"  href="#download" title="download">Resources</a></li>	
 			</ul>
@@ -173,109 +173,14 @@
 
         <div class="row about-features">
 
-            <div class="features-list block-1-3 block-m-1-2 block-mob-full group">
+            <div class="announcement-section" data-aos="fade-up">
 
-                <div class="bgrid feature" data-aos="fade-up">	
+                <div class="announcement-content">
+                    <h3>ANNOUNCEMENTS</h3>
+                    <p>Welcome to NightLight Guild! Stay tuned for updates and news.</p>
+                </div>
 
-                    <center><span class="icon"> <img src="{{ asset('images/icons/rok.png') }}" /> </span></center>            
-
-                    <div class="service-content">	
-
-                        <center><h3>GUILD VALUES :</h3></center>
-                        <h5>- <font color="46305e">Friendship</font> : Building lasting bonds with fellow members
-						<h5>- <font color="46305e">Respect</font> : Treating everyone with dignity and kindness
-						<h5>- <font color="46305e">Teamwork</font> : Working together to achieve common goals
-						<h5>- <font color="46305e">Loyalty</font> : Standing by our guild and members
-						<h5>- <font color="46305e">Growth</font> : Helping each other improve and succeed
-						<h5>- <font color="46305e">Fun</font> : Enjoying the game together
-                        </h5>
-                        
-                    </div> 	         	 
-
-                    </div> <!-- /bgrid -->
-
-                    <div class="bgrid feature" data-aos="fade-up">	
-
-                        <center><span class="icon"> <img src="{{ asset('images/icons/nid.png') }}" /> </span></center>                        
-
-                        <div class="service-content">	
-                        <center><h3>GUILD ACTIVITIES :</h3></center>  
-
-						<h5>- <font color="46305e">Guild Events</font> : Regular events and activities for all members
-						<h5>- <font color="46305e">Raids & Dungeons</font> : Team up for challenging content together
-						<h5>- <font color="46305e">PvP & Battlegrounds</font> : Competitive play as a united team
-						<h5>- <font color="46305e">Social Gatherings</font> : Casual hangouts and community building
-                        </h5>
-
-                        
-                    </div>	                          
-
-                </div> <!-- /bgrid -->
-
-                <div class="bgrid feature" data-aos="fade-up">
-
-                    <center><span class="icon"> <img src="{{ asset('images/icons/fad.png') }}" /> </span></center>		            
-
-                    <div class="service-content">
-                        <center><h3>COMMUNITY SUPPORT :</h3></center>
-
-                        <h5>- <font color="46305e">Discord Server</font> : Active Discord community for chatting and coordination
-						<h5>- <font color="46305e">Mentorship</font> : Experienced members helping new players learn and grow
-						<h5>- <font color="46305e">Resource Sharing</font> : Tips, guides, and resources shared among members
-						</h5>
-                            
-                    </div> 	            	               
-
-                </div> <!-- /bgrid -->
-
-                    <div class="bgrid feature" data-aos="fade-up">
-
-                        <center><span class="icon"> <img src="{{ asset('images/icons/emp.png') }}" /> </span></center>	
-
-                    <div class="service-content">
-                        <center><h3>GUILD ACHIEVEMENTS :</h3></center>
-
-                        <h5>- <font color="46305e">Tournament Wins</font> : Multiple victories in guild competitions
-						<h5>- <font color="46305e">Community Growth</font> : Continuously expanding our family of gamers
-						<h5>- <font color="46305e">Member Recognition</font> : Celebrating individual and team accomplishments
-						</h5>
-                        
-                    </div>                
-
-                    </div> <!-- /bgrid -->
-
-                <div class="bgrid feature" data-aos="fade-up">
-
-                    <center><span class="icon"> <img src="{{ asset('images/icons/shu.png') }}" /> </span></center>		            
-
-                    <div class="service-content">	
-                        <center><h3>MEMBERSHIP BENEFITS :</h3></center>
-
-                        <h5>- <font color="46305e">Exclusive Events</font> : Members-only activities and giveaways
-						<h5>- <font color="46305e">Guild Bank</font> : Shared resources to help members progress
-						<h5>- <font color="46305e">Priority Support</font> : Quick assistance from guild leadership
-						</h5>
-                    </div>	               
-
-                </div> <!-- /bgrid -->
-
-                <div class="bgrid feature" data-aos="fade-up">
-
-                    <center><span class="icon"> <img src="{{ asset('images/icons/vot.png') }}" /> </span></center>	   	           
-
-                    <div class="service-content">
-                        <center><h3>JOIN US :</h3></center>
-
-                        <h5>- <font color="46305e">Apply Now</font> : Fill out our application form to join
-						<h5>- <font color="46305e">Discord</font> : Join our Discord server to meet the community
-						<h5>- <font color="46305e">Contact Us</font> : Reach out to our leadership team for questions
-						</h5>
-                            
-                    </div>	               
-
-                </div> <!-- /bgrid -->
-
-            </div> <!-- end features-list -->
+            </div> <!-- end announcement-section -->
 
         </div> <!-- end about-features -->
         
@@ -288,9 +193,9 @@
         <div class="row pricing-content">
 
             <div class="col-four pricing-intro">
-                <h1 class="intro-header" data-aos="fade-up">SUPPORT THE GUILD :</h1>
+                <h1 class="intro-header" data-aos="fade-up">GALLERY :</h1>
 
-                <h5 data-aos="fade-up">NightLight is a community-driven guild. While we don't require any payments, voluntary contributions help us maintain our Discord server, host events, and provide better resources for our members. Your support is greatly appreciated!
+                <h5 data-aos="fade-up">Explore our gallery featuring memorable moments from guild events, raids, and community gatherings. See our adventures and achievements captured in screenshots.
                 </h5>
             </div>
 
@@ -478,7 +383,7 @@
                     <ul class="list-links">
                         <li><a href="{{ url('/') }}">Home</a></li>
                         <li><a href="#about">Information</a></li>
-                        <li><a href="#pricing">Support</a></li>
+                        <li><a href="#pricing">Gallery</a></li>
                         <li><a href="#testimonials">Team</a></li>
                         <li><a href="#download">Resources</a></li>
                         <li><a href="#">Join Guild</a></li>

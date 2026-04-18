@@ -2398,8 +2398,6 @@ html[data-useragent*='MSIE 10.0'] .home-scrolldown,
 
 #testimonial-slider .owl-dots .owl-dot {
   display: inline-block;
-  zoom: 1;
-  *display: inline;
 }
 
 #testimonial-slider .owl-dots .owl-dot span {
@@ -2851,6 +2849,41 @@ footer ul a:visited {
   }
   .footer-bottom .copyright span::after {
     display: none;
+  }
+}
+
+
+/* Announcement Section */
+.announcement-section {
+  width: 100%;
+  text-align: center;
+  padding: 4rem 0;
+}
+
+.announcement-content h3 {
+  font-family: "montserrat-bold", sans-serif;
+  font-size: 2.5rem;
+  color: #46305e;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+}
+
+.announcement-content p {
+  font-family: "muli-regular", sans-serif;
+  font-size: 1.6rem;
+  color: #767676;
+  line-height: 1.8;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+@media only screen and (max-width: 768px) {
+  .announcement-content h3 {
+    font-size: 2rem;
+  }
+  .announcement-content p {
+    font-size: 1.4rem;
   }
 }
 
