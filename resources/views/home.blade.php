@@ -157,8 +157,8 @@
             <div class="announcement-section" data-aos="fade-up">
 
                 <div class="announcement-content">
-                    <h3>ANNOUNCEMENTS</h3>
-                    <p>Welcome to NightLight Guild! Stay tuned for updates and news.</p>
+                    <h3>{{ $announcement->title ?? 'ANNOUNCEMENTS' }}</h3>
+                    <p>{{ $announcement->content ?? 'Welcome to NightLight Guild! Stay tuned for updates and news.' }}</p>
                 </div>
 
             </div> <!-- end announcement-section -->
@@ -183,53 +183,63 @@
             <div class="col-eight gallery-grid">
                 <div class="row">
 
-                    <div class="col-four gallery-item" data-aos="fade-up">
-                        <div class="gallery-placeholder">
-                            <div class="placeholder-box">
-                                <span class="placeholder-text">Photo 1</span>
+                    @if(isset($galleryImages) && count($galleryImages) > 0)
+                        @foreach($galleryImages as $index => $image)
+                            <div class="col-four gallery-item" data-aos="fade-up">
+                                <div class="gallery-placeholder" style="background: none; border: none; height: auto;">
+                                    <img src="{{ asset($image) }}" alt="Gallery Photo {{ $index + 1 }}" class="gallery-image">
+                                </div>
+                            </div>
+                        @endforeach
+                    @else
+                        <div class="col-four gallery-item" data-aos="fade-up">
+                            <div class="gallery-placeholder">
+                                <div class="placeholder-box">
+                                    <span class="placeholder-text">Photo 1</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-four gallery-item" data-aos="fade-up">
-                        <div class="gallery-placeholder">
-                            <div class="placeholder-box">
-                                <span class="placeholder-text">Photo 2</span>
+                        <div class="col-four gallery-item" data-aos="fade-up">
+                            <div class="gallery-placeholder">
+                                <div class="placeholder-box">
+                                    <span class="placeholder-text">Photo 2</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-four gallery-item" data-aos="fade-up">
-                        <div class="gallery-placeholder">
-                            <div class="placeholder-box">
-                                <span class="placeholder-text">Photo 3</span>
+                        <div class="col-four gallery-item" data-aos="fade-up">
+                            <div class="gallery-placeholder">
+                                <div class="placeholder-box">
+                                    <span class="placeholder-text">Photo 3</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-four gallery-item" data-aos="fade-up">
-                        <div class="gallery-placeholder">
-                            <div class="placeholder-box">
-                                <span class="placeholder-text">Photo 4</span>
+                        <div class="col-four gallery-item" data-aos="fade-up">
+                            <div class="gallery-placeholder">
+                                <div class="placeholder-box">
+                                    <span class="placeholder-text">Photo 4</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-four gallery-item" data-aos="fade-up">
-                        <div class="gallery-placeholder">
-                            <div class="placeholder-box">
-                                <span class="placeholder-text">Photo 5</span>
+                        <div class="col-four gallery-item" data-aos="fade-up">
+                            <div class="gallery-placeholder">
+                                <div class="placeholder-box">
+                                    <span class="placeholder-text">Photo 5</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-four gallery-item" data-aos="fade-up">
-                        <div class="gallery-placeholder">
-                            <div class="placeholder-box">
-                                <span class="placeholder-text">Photo 6</span>
+                        <div class="col-four gallery-item" data-aos="fade-up">
+                            <div class="gallery-placeholder">
+                                <div class="placeholder-box">
+                                    <span class="placeholder-text">Photo 6</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
 
                 </div>
             </div> <!-- end gallery-grid -->
@@ -253,117 +263,37 @@
 
                 <div class="slides owl-carousel">
 
-                    <div>
-                        <p>
-                        Leading NightLight Guild to greatness together.
-                        </p> 
+                    @if(isset($teamMembers) && count($teamMembers) > 0)
+                        @foreach($teamMembers as $member)
+                        <div>
+                            <p>
+                            {{ $member->quote }}
+                            </p>
 
-                        <div class="testimonial-author">
+                            <div class="testimonial-author">
+                                <img src="{{ $member->avatar ? asset($member->avatar) : asset('images/avatars/user-01.jpg') }}" alt="Author image">
+                                <div class="author-info">
+                                    {{ $member->name }}
+                                    <span class="position">{{ $member->role }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    @else
+                        <div>
+                            <p>
+                            Leading NightLight Guild to greatness together.
+                            </p>
+
+                            <div class="testimonial-author">
                                 <img src="{{ asset('images/avatars/user-01.jpg') }}" alt="Author image">
                                 <div class="author-info">
                                     xOrc
                                     <span class="position">Guild Master</span>
                                 </div>
-                        </div>                 
-                    </div> 
-
-                    <div>
-                        <p>
-                        Supporting the guild and ensuring our community thrives.
-                        </p>
-
-                        <div class="testimonial-author">
-                                <img src="{{ asset('images/avatars/user-02.jpg') }}" alt="Author image">
-                                <div class="author-info">
-                                    Azunyan
-                                    <span class="position">Vice Guild Master</span>
-                                </div>
-                        </div>                                         
-                    </div>
-
-                    <div>
-                        <p>
-                        Building a strong and united community.
-                        </p>
-
-                        <div class="testimonial-author">
-                                <img src="{{ asset('images/avatars/user-01.jpg') }}" alt="Author image">
-                                <div class="author-info">
-                                    BangJack
-                                    <span class="position">Vice Guild Master</span>
-                                </div>
-                        </div>                                         
-                    </div>
-
-                    <div>
-                        <p>
-                        Bringing charm and energy to our guild.
-                        </p>
-
-                        <div class="testimonial-author">
-                                <img src="{{ asset('images/avatars/user-02.jpg') }}" alt="Author image">
-                                <div class="author-info">
-                                    Nyxia
-                                    <span class="position">Charisma Baby</span>
-                                </div>
-                        </div>                                         
-                    </div>
-
-                    <div>
-                        <p>
-                        Keeping order and supporting our members.
-                        </p>
-
-                        <div class="testimonial-author">
-                                <img src="{{ asset('images/avatars/user-01.jpg') }}" alt="Author image">
-                                <div class="author-info">
-                                    NIGATRON
-                                    <span class="position">Officer</span>
-                                </div>
-                        </div>                                         
-                    </div>
-
-                    <div>
-                        <p>
-                        Guiding members through their journey.
-                        </p>
-
-                        <div class="testimonial-author">
-                                <img src="{{ asset('images/avatars/user-02.jpg') }}" alt="Author image">
-                                <div class="author-info">
-                                    shiroe
-                                    <span class="position">Officer</span>
-                                </div>
-                        </div>                                         
-                    </div>
-
-                    <div>
-                        <p>
-                        Supporting and organizing guild activities.
-                        </p>
-
-                        <div class="testimonial-author">
-                                <img src="{{ asset('images/avatars/user-01.jpg') }}" alt="Author image">
-                                <div class="author-info">
-                                    ReilaArdea
-                                    <span class="position">Officer</span>
-                                </div>
-                        </div>                                         
-                    </div>
-
-                    <div>
-                        <p>
-                        Leading our members to victory.
-                        </p>
-
-                        <div class="testimonial-author">
-                                <img src="{{ asset('images/avatars/user-02.jpg') }}" alt="Author image">
-                                <div class="author-info">
-                                    Moonshinee
-                                    <span class="position">Commander</span>
-                                </div>
-                        </div>                                         
-                    </div>
+                            </div>
+                        </div>
+                    @endif
 
                 </div> <!-- end slides -->
 
