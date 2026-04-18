@@ -35,7 +35,7 @@ Route::get('/', function () {
     $footerSettings = App\Models\FooterSetting::first();
     $footerLinks = App\Models\FooterLink::where('is_active', true)->orderBy('order')->get();
 
-    return view('home', compact('galleryImages', 'teamMembers', 'footerSettings', 'footerLinks'));
+    return view('home', compact('announcement', 'galleryImages', 'teamMembers', 'footerSettings', 'footerLinks'));
 });
 
 // Admin routes
@@ -82,8 +82,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/announcement', function (Illuminate\Http\Request $request) {
             $announcement = App\Models\Announcement::first();
             if ($announcement) {
-                $announcement->title = $request->title;
-                $announcement->content = $request->content;
+                $announcement->fill([
+                    'title' => $request->title,
+                    'content' => $request->content
+                ]);
                 $announcement->save();
             } else {
                 App\Models\Announcement::create([
