@@ -14,8 +14,7 @@
 				<li class="current"><a class="smoothscroll"  href="#home" title="home">Home</a></li>
                 <li><a class="smoothscroll"  href="#about" title="about">Information</a></li>
 				<li><a class="smoothscroll"  href="#pricing" title="pricing">Gallery</a></li>
-				<li><a class="smoothscroll"  href="#testimonials" title="testimonials">Team</a></li>
-				<li><a class="smoothscroll"  href="#download" title="download">Resources</a></li>	
+				<li><a class="smoothscroll"  href="#testimonials" title="testimonials">Team</a></li>	
 			</ul>
 
             <a href="#" title="sign-up" class="button button-primary cta">Join Guild</a>

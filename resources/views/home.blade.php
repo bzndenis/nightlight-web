@@ -84,13 +84,13 @@
                     </div>
 
                     <div class="buttons" data-aos="fade-up">
-                        <a href="#download" class="smoothscroll button stroke">
+                        <a href="#about" class="smoothscroll button stroke">
                             <span class="icon-circle-down" aria-hidden="true"></span>
-                            Resources
+                            Information
                         </a>
-                        <a href="https://www.youtube.com/watch?v=Yeoxq3v73Qw" data-lity class="button stroke">
+                        <a href="#pricing" class="smoothscroll button stroke">
                             <span class="icon-play" aria-hidden="true"></span>
-                            Learn More
+                            Gallery
                         </a>
                     </div>                                         
 
