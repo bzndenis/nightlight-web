@@ -17,13 +17,19 @@
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="{{ url('/') }}">
     <meta property="og:title" content="NightLight - Guild Community">
-    <meta property="og:description" content="NightLight Guild - A passionate community of gamers united by friendship and teamwork.">
+    <meta property="og:description" content="NightLight Guild - A passionate community of gamers united by friendship and teamwork. Join our guild and experience the best gaming adventure together.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url('/') }}">
-    <meta property="og:image" content="{{ asset('images/logo.png') }}">
+    <meta property="og:image" content="{{ asset('images/hero-bg.jpg') }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="NightLight Guild Community">
+    <meta property="og:site_name" content="NightLight Guild">
+    <meta property="og:locale" content="en_US">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="NightLight - Guild Community">
-    <meta name="twitter:description" content="NightLight Guild - A passionate community of gamers united by friendship and teamwork.">
+    <meta name="twitter:description" content="NightLight Guild - A passionate community of gamers united by friendship and teamwork. Join our guild and experience the best gaming adventure together.">
+    <meta name="twitter:image" content="{{ asset('images/hero-bg.jpg') }}">
 
     <!-- mobile specific metas
    ================================================== -->
