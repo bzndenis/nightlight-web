@@ -7,7 +7,7 @@
 
                 <div class="col-three md-1-3 tab-full footer-info">
 
-                    <div class="footer-logo"></div>
+                    <div class="footer-logo">NightLight</div>
 
                     <p>
                     {{ $footerSettings->description ?? 'NightLight is a gaming guild community dedicated to bringing players together through friendship, teamwork, and shared adventures. We believe in creating a welcoming environment for all gamers.' }}
