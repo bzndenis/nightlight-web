@@ -1,37 +1,37 @@
 @extends('admin.layout')
 
 @section('content')
-    <div class="admin-header">
+    <div class="admin-header" data-aos="fade-down">
         <h1>Team Management</h1>
     </div>
 
-    <div class="card">
+    <div class="card" data-aos="fade-up">
         <h2>Add Team Member</h2>
         <form method="POST" action="{{ route('admin.team.store') }}">
             @csrf
-            
-            <div class="form-group">
+
+            <div class="form-group" data-aos="fade-up" data-aos-delay="100">
                 <label for="name">Name</label>
                 <input type="text" id="name" name="name" required>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" data-aos="fade-up" data-aos-delay="200">
                 <label for="role">Role</label>
                 <input type="text" id="role" name="role" required>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" data-aos="fade-up" data-aos-delay="300">
                 <label for="quote">Quote</label>
                 <textarea id="quote" name="quote" required></textarea>
             </div>
 
-            <button type="submit">Add Team Member</button>
+            <button type="submit" data-aos="fade-up" data-aos-delay="400">Add Team Member</button>
         </form>
     </div>
 
-    <div class="card">
+    <div class="card" data-aos="fade-up" data-aos-delay="100">
         <h2>Team Members</h2>
-        <table>
+        <table data-aos="fade-up" data-aos-delay="200">
             <thead>
                 <tr>
                     <th>ID</th>

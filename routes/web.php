@@ -28,7 +28,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         return back()->with('error', 'Invalid credentials');
     })->name('login.submit');
     
-    Route::post('/logout', function () {
+    Route::match(['get', 'post'], '/logout', function () {
         session()->forget('admin_logged_in');
         return redirect()->route('admin.login');
     })->name('logout');

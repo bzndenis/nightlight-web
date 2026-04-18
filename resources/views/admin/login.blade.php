@@ -30,58 +30,107 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #141515;
+            background: linear-gradient(135deg, rgba(70, 48, 94, 0.95) 0%, rgba(136, 21, 216, 0.9) 100%), url('{{ asset('images/hero-bg.jpg') }}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             padding: 2rem;
         }
         .login-box {
-            background: #ffffff;
-            padding: 3rem;
-            border-radius: 8px;
-            max-width: 400px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 3.5rem;
+            border-radius: 20px;
+            max-width: 420px;
             width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.2);
+            animation: fadeInUp 0.6s ease;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         .login-box h1 {
             text-align: center;
             color: #46305e;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
+            font-family: "montserrat-bold", sans-serif;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+            background: linear-gradient(135deg, #46305e 0%, #8815d8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         .login-box .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
         .login-box label {
             display: block;
-            margin-bottom: 0.5rem;
-            font-family: "montserrat-regular", sans-serif;
-            font-size: 1.4rem;
-            color: #151515;
+            margin-bottom: 0.8rem;
+            font-family: "montserrat-semibold", sans-serif;
+            font-size: 1.5rem;
+            color: #46305e;
+            font-weight: 600;
         }
         .login-box input {
             width: 100%;
             height: 5rem;
-            padding: 1rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 1rem 1.5rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
             font-size: 1.5rem;
+            font-family: "muli-regular", sans-serif;
+            transition: all 0.3s ease;
+            background: #fafafa;
+        }
+        .login-box input:focus {
+            outline: none;
+            border-color: #8815d8;
+            box-shadow: 0 0 0 4px rgba(136, 21, 216, 0.1);
+            background: #ffffff;
         }
         .login-box button {
             width: 100%;
             height: 5.4rem;
-            background: #46305e;
+            background: linear-gradient(135deg, #46305e 0%, #8815d8 100%);
             color: #ffffff;
             border: none;
-            border-radius: 5px;
-            font-size: 1.5rem;
+            border-radius: 12px;
+            font-size: 1.6rem;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-family: "montserrat-semibold", sans-serif;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(136, 21, 216, 0.3);
         }
         .login-box button:hover {
-            background: #8815d8;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(136, 21, 216, 0.4);
         }
         .login-error {
             color: #e74c3c;
             text-align: center;
-            margin-bottom: 1rem;
-            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            padding: 1rem;
+            background: rgba(231, 76, 60, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(231, 76, 60, 0.2);
+            animation: shake 0.5s ease;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
         }
     </style>
 
