@@ -257,7 +257,7 @@
 
     <!-- Testimonials Section
     ================================================== -->
-    <center><section id="testimonials">
+    <section id="testimonials">
 
         <div class="row">
             <div class="col-twelve">
@@ -265,51 +265,217 @@
             </div>   		
         </div>   	
 
-        <div class="row owl-wrap">
+        <div class="row team-section" data-aos="fade-up">
+            @php
+                $roleOrder = ['Guild Master', 'Vice Guild Master', 'Charisma Baby', 'Officer', 'Commander'];
+                
+                $orderedGroupedMembers = [];
+                foreach($roleOrder as $role) {
+                    $orderedGroupedMembers[$role] = [];
+                }
+                
+                if(isset($teamMembers) && count($teamMembers) > 0) {
+                    foreach($teamMembers as $member) {
+                        if (in_array($member->role, $roleOrder)) {
+                            $orderedGroupedMembers[$member->role][] = $member;
+                        }
+                    }
+                }
+            @endphp
 
-            <div id="testimonial-slider"  data-aos="fade-up">
-
-                <div class="slides owl-carousel">
-
-                    @if(isset($teamMembers) && count($teamMembers) > 0)
-                        @foreach($teamMembers as $member)
-                        <div>
-                            <p>
-                            {{ $member->quote }}
-                            </p>
-
-                            <div class="testimonial-author">
-                                <img src="{{ $member->avatar ? asset($member->avatar) : asset('images/avatars/user-01.jpg') }}" alt="Author image">
-                                <div class="author-info">
-                                    {{ $member->name }}
-                                    <span class="position">{{ $member->role }}</span>
+            <div class="team-guild-grid">
+                @foreach($roleOrder as $role)
+                @php 
+                    $members = $orderedGroupedMembers[$role] ?? []; 
+                    
+                    $maxCount = 1;
+                    if ($role == 'Vice Guild Master') $maxCount = 2;
+                    if ($role == 'Officer') $maxCount = 4;
+                @endphp
+                <div class="team-role-card">
+                    <div class="role-header">
+                        <h2>{{ $role }}</h2>
+                        <span class="role-count">{{ count($members) }}/{{ $maxCount }}</span>
+                    </div>
+                    <div class="role-members-list">
+                        @if(count($members) > 0)
+                            @foreach($members as $member)
+                            <div class="team-member-item">
+                                <div class="avatar-wrapper">
+                                    <div class="avatar-frame"></div>
+                                    <img src="{{ $member->avatar ? asset($member->avatar) : asset('images/avatars/user-01.jpg') }}" alt="{{ $member->name }}" class="member-avatar">
                                 </div>
+                                <div class="member-name">{{ $member->name }}</div>
                             </div>
-                        </div>
-                        @endforeach
-                    @else
-                        <div>
-                            <p>
-                            Leading NightLight Guild to greatness together.
-                            </p>
-
-                            <div class="testimonial-author">
-                                <img src="{{ asset('images/avatars/user-01.jpg') }}" alt="Author image">
-                                <div class="author-info">
-                                    xOrc
-                                    <span class="position">Guild Master</span>
+                            @endforeach
+                        @else
+                            <div class="team-member-item empty-member">
+                                <div class="avatar-wrapper">
+                                    <div class="avatar-frame empty"></div>
+                                    <div class="member-avatar" style="border: 3px solid #ffffff; background: #f0f0f0;"></div>
                                 </div>
+                                <div class="member-name empty-text">-</div>
                             </div>
-                        </div>
-                    @endif
+                        @endif
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
 
-                </div> <!-- end slides -->
+        <style>
+            .team-section {
+                padding: 2rem 1rem;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
 
-            </div> <!-- end testimonial-slider -->         
+            .team-guild-grid {
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                gap: 1.5rem;
+                align-items: start;
+            }
+
+            .team-role-card {
+                background: #ffffff;
+                border-radius: 16px;
+                padding: 1.5rem 1rem;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+                border: 2px solid #f0f0f0;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
             
-        </div> <!-- end flex-container -->
+            .team-role-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+                border-color: #e94560;
+            }
 
-    </section></center> <!-- end testimonials -->
+            .role-header {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 0.8rem;
+                padding-bottom: 1rem;
+                border-bottom: 2px solid #f0f0f0;
+            }
+
+            .role-header h2 {
+                color: #2b2b2b;
+                font-size: 1.1rem;
+                margin: 0;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                font-weight: 800;
+                line-height: 1.3;
+            }
+
+            .role-count {
+                background: rgba(233, 69, 96, 0.1);
+                color: #e94560;
+                padding: 4px 14px;
+                border-radius: 20px;
+                font-size: 0.9rem;
+                font-weight: 700;
+            }
+
+            .role-members-list {
+                display: flex;
+                flex-direction: column;
+                gap: 1.8rem;
+                align-items: center;
+            }
+
+            .team-member-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.8rem;
+                width: 100%;
+            }
+
+            .avatar-wrapper {
+                position: relative;
+                width: 90px;
+                height: 90px;
+            }
+
+            .avatar-frame {
+                position: absolute;
+                top: -4px;
+                left: -4px;
+                right: -4px;
+                bottom: -4px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #FFD700 0%, #FF8C00 50%, #FF4500 100%);
+                box-shadow: 0 0 10px rgba(255, 140, 0, 0.4);
+                z-index: 0;
+            }
+            
+            .avatar-frame.empty {
+                background: #e0e0e0;
+                box-shadow: none;
+            }
+
+            .member-avatar {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 50%;
+                border: 4px solid #ffffff;
+                z-index: 1;
+                background: #f8f9fa;
+            }
+
+            .member-name {
+                color: #333333;
+                font-size: 1rem;
+                font-weight: 700;
+                text-align: center;
+                margin: 0;
+                word-break: break-word;
+            }
+            
+            .empty-text {
+                color: #aaaaaa;
+            }
+
+            @media (max-width: 1024px) {
+                .team-guild-grid {
+                    grid-template-columns: repeat(3, 1fr);
+                }
+            }
+            
+            @media (max-width: 768px) {
+                .team-guild-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+                .team-role-card {
+                    padding: 1.2rem 0.5rem;
+                }
+                .avatar-wrapper {
+                    width: 70px;
+                    height: 70px;
+                }
+                .role-header h2 {
+                    font-size: 0.95rem;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .team-guild-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
+
+    </section> <!-- end testimonials -->
 
     <!-- download
     ================================================== -->
