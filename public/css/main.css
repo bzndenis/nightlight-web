@@ -2979,26 +2979,38 @@ footer ul a:visited {
 /* Discord Button Wrapper */
 .discord-button-wrapper {
   margin-bottom: 1.5rem;
-  text-align: center;
-  display: flex;
-  justify-content: center;
 }
 
 .discord-button-wrapper .discord-btn {
-  font-size: 1.8rem;
-  padding: 1.8rem 3rem;
-  min-width: 280px;
+  font-size: 2.2rem;
+  padding: 2.2rem 4rem;
+  min-width: 320px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.8rem;
+  gap: 1rem;
+  background: linear-gradient(135deg, #5865F2 0%, #7289da 50%, #5865F2 100%);
+  background-size: 200% 200%;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.1rem;
+  position: relative;
+  z-index: 1;
+  margin: 0 .6rem 1.2rem 0;
 }
 
-/* Discord Button Animation */
+/* Discord Button Animation - Override button-primary */
+.button.button-primary.discord-btn,
 .discord-btn {
-  animation: discord-glow 2s ease-in-out infinite;
+  animation: discord-gradient 3s ease infinite, discord-glow 2s ease-in-out infinite;
   position: relative;
   overflow: hidden;
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #5865F2 0%, #7289da 50%, #5865F2 100%) !important;
+  background-size: 200% 200% !important;
+  border: 2px solid rgba(255, 255, 255, 0.2) !important;
+  color: #FFFFFF !important;
 }
 
 .discord-btn::before {
@@ -3008,16 +3020,57 @@ footer ul a:visited {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
   animation: discord-shine 3s ease-in-out infinite;
+  z-index: -1;
+}
+
+.discord-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  animation: discord-pulse 2s ease-in-out infinite;
+  z-index: -1;
+}
+
+.button.button-primary.discord-btn:hover,
+.discord-btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 15px 35px rgba(88, 101, 242, 0.5), 0 5px 15px rgba(88, 101, 242, 0.3) !important;
+  background: linear-gradient(135deg, #7289da 0%, #5865F2 50%, #7289da 100%) !important;
+  background-size: 200% 200% !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.discord-btn:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+.discord-btn i {
+  font-size: 2.5rem;
+  animation: discord-icon-bounce 2s ease-in-out infinite;
+}
+
+@keyframes discord-gradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 @keyframes discord-glow {
   0%, 100% {
-    box-shadow: 0 0 5px #5865F2, 0 0 10px #5865F2, 0 0 15px #5865F2;
+    box-shadow: 0 0 15px rgba(88, 101, 242, 0.4), 0 0 30px rgba(88, 101, 242, 0.2), 0 0 45px rgba(88, 101, 242, 0.1);
   }
   50% {
-    box-shadow: 0 0 10px #5865F2, 0 0 20px #5865F2, 0 0 30px #5865F2;
+    box-shadow: 0 0 25px rgba(88, 101, 242, 0.6), 0 0 50px rgba(88, 101, 242, 0.4), 0 0 75px rgba(88, 101, 242, 0.2);
   }
 }
 
@@ -3030,11 +3083,41 @@ footer ul a:visited {
   }
 }
 
+@keyframes discord-pulse {
+  0%, 100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes discord-icon-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
 @media only screen and (max-width: 768px) {
   .discord-text {
     font-size: 1.8rem;
   }
-}
 
+  .discord-button-wrapper .discord-btn {
+    font-size: 1.9rem;
+    padding: 1.8rem 3rem;
+    min-width: 280px;
+    margin: 0 0 1.2rem 0;
+  }
+
+  .discord-btn i {
+    font-size: 2rem;
+  }
+}
 
 /*# sourceMappingURL=main.css.map */
