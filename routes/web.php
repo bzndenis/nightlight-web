@@ -192,10 +192,21 @@ Route::prefix('admin')->name('admin.')->group(function () {
         })->name('team');
 
         Route::post('/team', function (Illuminate\Http\Request $request) {
+            $avatarPath = null;
+            
+            // Handle avatar upload
+            if ($request->hasFile('avatar')) {
+                $image = $request->file('avatar');
+                $imageName = time() . '_' . $image->getClientOriginalName();
+                $image->move(public_path('images/avatars'), $imageName);
+                $avatarPath = 'images/avatars/' . $imageName;
+            }
+            
             App\Models\TeamMember::create([
                 'name' => $request->name,
                 'role' => $request->role,
                 'quote' => $request->quote,
+                'avatar' => $avatarPath,
                 'order' => App\Models\TeamMember::max('order') + 1,
                 'is_active' => true
             ]);
@@ -207,9 +218,36 @@ Route::prefix('admin')->name('admin.')->group(function () {
             if (!$member) {
                 return back()->with('error', 'Team member not found');
             }
-            // For now, redirect back with member data pre-filled (to be implemented with edit view)
-            return back()->with('error', 'Edit functionality coming soon');
+            return view('admin.team-edit', compact('member'));
         })->name('team.edit');
+
+        Route::put('/team/{id}', function (Illuminate\Http\Request $request, $id) {
+            $member = App\Models\TeamMember::find($id);
+            if (!$member) {
+                return back()->with('error', 'Team member not found');
+            }
+            
+            // Handle avatar upload
+            if ($request->hasFile('avatar')) {
+                // Delete old avatar if exists
+                if ($member->avatar && file_exists(public_path($member->avatar))) {
+                    unlink(public_path($member->avatar));
+                }
+                
+                $image = $request->file('avatar');
+                $imageName = time() . '_' . $image->getClientOriginalName();
+                $image->move(public_path('images/avatars'), $imageName);
+                $member->avatar = 'images/avatars/' . $imageName;
+            }
+            
+            $member->name = $request->name;
+            $member->role = $request->role;
+            $member->quote = $request->quote;
+            $member->is_active = $request->has('is_active');
+            $member->save();
+            
+            return redirect()->route('admin.team')->with('success', 'Team member updated successfully');
+        })->name('team.update');
 
         Route::delete('/team/{id}', function ($id) {
             $member = App\Models\TeamMember::find($id);
