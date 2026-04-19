@@ -2911,36 +2911,100 @@ footer ul a:visited {
 .announcement-section {
   width: 100%;
   text-align: center;
-  padding: 4rem 0;
+  padding: 5rem 0;
+  background: linear-gradient(135deg, rgba(88, 101, 242, 0.1) 0%, rgba(114, 137, 218, 0.05) 100%);
+  border-top: 3px solid #5865F2;
+  border-bottom: 3px solid #5865F2;
+  margin: 3rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.announcement-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(88, 101, 242, 0.05), transparent);
+  animation: announcement-shine 4s ease-in-out infinite;
+}
+
+.announcement-content {
+  position: relative;
+  z-index: 1;
+  padding: 0 2rem;
 }
 
 .announcement-content h3 {
   font-family: "montserrat-bold", sans-serif;
-  font-size: 2.5rem;
-  color: #46305e;
+  font-size: 3rem;
+  color: #5865F2;
   margin-bottom: 2rem;
   text-transform: uppercase;
-  letter-spacing: 0.2rem;
+  letter-spacing: 0.3rem;
+  text-shadow: 0 2px 10px rgba(88, 101, 242, 0.2);
+  position: relative;
+  display: inline-block;
+}
+
+.announcement-content h3::before {
+  content: '📢';
+  margin-right: 1rem;
+  font-size: 2.5rem;
 }
 
 .announcement-content p {
   font-family: "muli-regular", sans-serif;
-  font-size: 1.6rem;
-  color: #767676;
-  line-height: 1.8;
+  font-size: 1.8rem;
+  color: #333;
+  line-height: 1.9;
   max-width: 800px;
   margin: 0 auto;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 2rem 3rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-left: 5px solid #5865F2;
+}
+
+@keyframes announcement-shine {
+  0%, 100% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(100%);
+  }
 }
 
 @media only screen and (max-width: 768px) {
+  .announcement-section {
+    padding: 3rem 0;
+    margin: 2rem 0;
+  }
+
+  .announcement-content {
+    padding: 0 1.5rem;
+  }
+
   .announcement-content h3 {
     font-size: 2rem;
+    letter-spacing: 0.2rem;
   }
+
+  .announcement-content h3::before {
+    font-size: 2rem;
+    margin-right: 0.5rem;
+  }
+
   .announcement-content p {
     font-size: 1.4rem;
+    padding: 1.5rem 2rem;
   }
 }
-
 
 /* Discord CTA Animation */
 .discord-cta {
