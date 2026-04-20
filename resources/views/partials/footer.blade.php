@@ -3,7 +3,7 @@
     <footer>
 
         <div class="footer-main">
-            <div class="row">  
+            <div class="row" style="display: flex; justify-content: center; flex-wrap: wrap;">  
 
                 <div class="col-three md-1-3 tab-full footer-info">
 
@@ -34,9 +34,9 @@
 
                 </div> <!-- end footer-info -->
 
-                <div class="col-three md-1-3 tab-1-2 mob-full footer-contact">
+                <div class="col-three md-1-3 tab-1-2 mob-full footer-contact" style="text-align: center;">
 
-                  <img src="{{ asset('images/sedora.png') }}" />
+                  <img src="{{ asset('images/sedora.png') }}" style="max-width: 100%; display: inline-block;" />
 
                 </div> <!-- end footer-contact -->
 
