@@ -368,7 +368,7 @@
     <section id="testimonials">
 
         <div class="row">
-            <div class="col-twelve">
+            <div class="col-twelve" style="text-align: center;">
                 <h1 class="intro-header" data-aos="fade-up">Meet the NightLight Team</h1>
             </div>   		
         </div>   	
