@@ -170,89 +170,197 @@
 
     <!-- pricing
     ================================================== -->
-    <section id="pricing">
-        <div class="row pricing-content">
+    <section id="pricing" class="modern-gallery-section">
+        <style>
+            .modern-gallery-section {
+                padding: 6rem 0;
+                background: #f8f9fa;
+                position: relative;
+            }
+            .gallery-intro {
+                text-align: center;
+                margin-bottom: 2rem;
+            }
+            .gallery-intro h1 {
+                font-size: 2.8rem;
+                font-weight: 800;
+                color: #2b2b2b;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                margin-bottom: 1rem;
+            }
+            .gallery-slider-wrapper {
+                position: relative;
+                width: 100%;
+                padding: 2rem;
+                max-width: 1400px;
+                margin: 0 auto;
+            }
+            .gallery-slider-container {
+                overflow-x: auto;
+                overflow-y: hidden;
+                cursor: grab;
+                scroll-behavior: smooth;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+                padding: 1.5rem 0;
+            }
+            .gallery-slider-container::-webkit-scrollbar {
+                display: none;
+            }
+            .gallery-slider {
+                display: flex;
+                gap: 2rem;
+            }
+            .gallery-item {
+                flex: 0 0 calc(33.333% - 1.34rem);
+                min-width: 280px;
+                position: relative;
+                border-radius: 20px;
+                overflow: hidden;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                background: #fff;
+                transform: translateZ(0); /* Hardware acceleration */
+            }
+            
+            .gallery-item:hover {
+                transform: translateY(-12px) scale(1.02);
+                box-shadow: 0 25px 50px rgba(233, 69, 96, 0.2);
+                z-index: 10;
+            }
 
-            <div class="col-four pricing-intro">
-                <h1 class="intro-header" data-aos="fade-up">{{ $gallery->title ?? 'GALLERY' }} :</h1>
+            .gallery-image-wrapper {
+                position: relative;
+                width: 100%;
+                padding-top: 100%; /* 1:1 Aspect Ratio / Square */
+                overflow: hidden;
+                background: #eaeaea;
+            }
 
-                <h5 data-aos="fade-up">{{ $gallery->description ?? 'Explore our gallery featuring memorable moments from guild events, raids, and community gatherings. See our adventures and achievements captured in screenshots.' }}
-                </h5>
+            .gallery-image {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.6s ease;
+            }
+
+            .gallery-item:hover .gallery-image {
+                transform: scale(1.1);
+            }
+
+            .gallery-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(to bottom, rgba(233,69,96,0.1), rgba(233,69,96,0.85));
+                opacity: 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: opacity 0.4s ease;
+                pointer-events: none;
+            }
+
+            .gallery-item:hover .gallery-overlay {
+                opacity: 1;
+            }
+
+            .gallery-icon {
+                color: #ffffff;
+                font-size: 3rem;
+                transform: translateY(30px) scale(0.5);
+                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            }
+
+            .gallery-item:hover .gallery-icon {
+                transform: translateY(0) scale(1);
+            }
+
+            .gallery-placeholder {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+                animation: placeholderPulse 2.5s infinite ease-in-out;
+            }
+
+            .placeholder-text {
+                font-weight: 700;
+                color: rgba(0,0,0,0.3);
+                font-size: 1.2rem;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+            }
+
+            @keyframes placeholderPulse {
+                0% { opacity: 0.7; }
+                50% { opacity: 1; }
+                100% { opacity: 0.7; }
+            }
+
+            @media (max-width: 1024px) {
+                .gallery-item {
+                    flex: 0 0 calc(50% - 1rem);
+                }
+            }
+            @media (max-width: 768px) {
+                .gallery-item {
+                    flex: 0 0 calc(80% - 1rem);
+                }
+            }
+        </style>
+
+        <div class="row">
+            <div class="col-twelve gallery-intro" data-aos="fade-up">
+                <h1 class="intro-header">{{ $gallery->title ?? 'OUR GALLERY' }}</h1>
+                <p class="lead">{{ $gallery->description ?? 'Explore our gallery featuring memorable moments from guild events, raids, and community gatherings. See our adventures and achievements captured in screenshots.' }}</p>
             </div>
+        </div>
 
-            <div class="col-eight gallery-grid">
-                <div class="gallery-slider-container" style="overflow-x: auto; overflow-y: hidden; cursor: grab; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none;">
-                    <style>
-                        .gallery-slider-container::-webkit-scrollbar {
-                            display: none;
-                        }
-                    </style>
-                    <div class="gallery-slider" id="gallerySlider" style="display: flex; gap: 1rem;">
+        <div class="gallery-slider-wrapper">
+            <div class="gallery-slider-container" id="galleryContainer">
+                <div class="gallery-slider" id="gallerySlider">
 
-                    @if(isset($galleryImages) && count($galleryImages) > 0)
-
-                        @foreach($galleryImages as $index => $image)
-                            <div class="gallery-item" style="flex: 0 0 calc(25% - 0.75rem); min-width: 200px;" data-aos="fade-up">
-                                <div class="gallery-placeholder" style="background: none; border: none; height: auto;">
-                                    <img data-src="{{ asset($image) }}" alt="Gallery Photo {{ $index + 1 }}" class="gallery-image lazy-load" onclick="openLightbox('{{ asset($image) }}', {{ $index }})" style="cursor: pointer; width: 100%; height: auto; border-radius: 8px; object-fit: cover; background: #f0f0f0; min-height: 200px;">
-                                </div>
-                            </div>
-                        @endforeach
-                    @else
-                        <div class="gallery-item" style="flex: 0 0 calc(25% - 0.75rem); min-width: 200px;" data-aos="fade-up">
-                            <div class="gallery-placeholder">
-                                <div class="placeholder-box">
-                                    <span class="placeholder-text">Photo 1</span>
+                @if(isset($galleryImages) && count($galleryImages) > 0)
+                    @foreach($galleryImages as $index => $image)
+                        <div class="gallery-item" data-aos="fade-up" data-aos-delay="{{ $index * 50 }}">
+                            <div class="gallery-image-wrapper" onclick="openLightbox('{{ asset($image) }}', {{ $index }})" style="cursor: pointer;">
+                                <img data-src="{{ asset($image) }}" alt="Gallery Photo {{ $index + 1 }}" class="gallery-image lazy-load">
+                                <div class="gallery-overlay">
+                                    <i class="icon-search gallery-icon"></i>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="gallery-item" style="flex: 0 0 calc(25% - 0.75rem); min-width: 200px;" data-aos="fade-up">
-                            <div class="gallery-placeholder">
-                                <div class="placeholder-box">
-                                    <span class="placeholder-text">Photo 2</span>
+                    @endforeach
+                @else
+                    @for($i = 1; $i <= 6; $i++)
+                        <div class="gallery-item" data-aos="fade-up" data-aos-delay="{{ $i * 50 }}">
+                            <div class="gallery-image-wrapper">
+                                <div class="gallery-placeholder">
+                                    <span class="placeholder-text">Photo {{ $i }}</span>
                                 </div>
                             </div>
                         </div>
+                    @endfor
+                @endif
 
-                        <div class="gallery-item" style="flex: 0 0 calc(25% - 0.75rem); min-width: 200px;" data-aos="fade-up">
-                            <div class="gallery-placeholder">
-                                <div class="placeholder-box">
-                                    <span class="placeholder-text">Photo 3</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="gallery-item" style="flex: 0 0 calc(25% - 0.75rem); min-width: 200px;" data-aos="fade-up">
-                            <div class="gallery-placeholder">
-                                <div class="placeholder-box">
-                                    <span class="placeholder-text">Photo 4</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="gallery-item" style="flex: 0 0 calc(25% - 0.75rem); min-width: 200px;" data-aos="fade-up">
-                            <div class="gallery-placeholder">
-                                <div class="placeholder-box">
-                                    <span class="placeholder-text">Photo 5</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="gallery-item" style="flex: 0 0 calc(25% - 0.75rem); min-width: 200px;" data-aos="fade-up">
-                            <div class="gallery-placeholder">
-                                <div class="placeholder-box">
-                                    <span class="placeholder-text">Photo 6</span>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-
-                    </div>
                 </div>
-            </div> <!-- end gallery-grid -->
-
-        </div> <!-- end pricing-content -->
+            </div>
+        </div>
     </section> <!-- end pricing -->
 
     <!-- Testimonials Section
@@ -508,11 +616,85 @@
     </section> end download     -->
 
 <!-- Lightbox Modal -->
-<div id="lightbox" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 9999; justify-content: center; align-items: center;">
-    <button onclick="closeLightbox()" style="position: absolute; top: 20px; right: 30px; font-size: 40px; color: white; background: none; border: none; cursor: pointer; z-index: 10000;">&times;</button>
-    <button onclick="prevImage()" style="position: absolute; left: 30px; font-size: 40px; color: white; background: none; border: none; cursor: pointer; z-index: 10000;">&#10094;</button>
-    <button onclick="nextImage()" style="position: absolute; right: 30px; font-size: 40px; color: white; background: none; border: none; cursor: pointer; z-index: 10000;">&#10095;</button>
-    <img id="lightbox-img" src="" alt="Gallery Preview" style="max-width: 90%; max-height: 90%; object-fit: contain;">
+<style>
+    /* Modern Lightbox Styles */
+    #lightbox {
+        display: none;
+        position: fixed;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(15, 15, 20, 0.95);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        z-index: 9999;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+    #lightbox.active {
+        opacity: 1;
+    }
+    #lightbox-img {
+        max-width: 90%;
+        max-height: 85vh;
+        object-fit: contain;
+        border-radius: 12px;
+        box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+        transform: scale(0.95);
+        transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    #lightbox.active #lightbox-img {
+        transform: scale(1);
+    }
+    .lightbox-btn {
+        position: absolute;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.2);
+        color: white;
+        border-radius: 50%;
+        width: 65px;
+        height: 65px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        z-index: 10000;
+        font-size: 24px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    .lightbox-btn:hover {
+        background: #e94560;
+        border-color: #e94560;
+        transform: scale(1.1) translateY(-2px);
+        box-shadow: 0 12px 25px rgba(233, 69, 96, 0.4);
+    }
+    .lightbox-btn i {
+        line-height: 1;
+    }
+    #lightbox-close { top: 30px; right: 30px; }
+    #lightbox-prev { left: 40px; }
+    #lightbox-next { right: 40px; }
+    
+    @media (max-width: 768px) {
+        .lightbox-btn { width: 50px; height: 50px; font-size: 20px; }
+        #lightbox-prev { left: 15px; }
+        #lightbox-next { right: 15px; }
+        #lightbox-close { top: 20px; right: 20px; }
+    }
+</style>
+
+<div id="lightbox">
+    <button id="lightbox-close" class="lightbox-btn" onclick="closeLightbox()">
+        <i class="icon-times"></i>
+    </button>
+    <button id="lightbox-prev" class="lightbox-btn" onclick="prevImage(event)">
+        <i class="icon-arrow-left"></i>
+    </button>
+    <button id="lightbox-next" class="lightbox-btn" onclick="nextImage(event)">
+        <i class="icon-arrow-right"></i>
+    </button>
+    <img id="lightbox-img" src="" alt="Gallery Preview">
 </div>
 
 <script>
@@ -521,27 +703,70 @@
 
     function openLightbox(imageSrc, index) {
         currentImageIndex = index;
-        document.getElementById('lightbox-img').src = imageSrc;
-        document.getElementById('lightbox').style.display = 'flex';
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightbox = document.getElementById('lightbox');
+        
+        lightboxImg.src = imageSrc;
+        lightbox.style.display = 'flex';
+        
+        // Force reflow to enable transition
+        void lightbox.offsetWidth;
+        lightbox.classList.add('active');
+
+        // Hide navigation arrows if there's only 1 image
+        const prevBtn = document.getElementById('lightbox-prev');
+        const nextBtn = document.getElementById('lightbox-next');
+        if (galleryImages.length <= 1) {
+            prevBtn.style.display = 'none';
+            nextBtn.style.display = 'none';
+        } else {
+            prevBtn.style.display = 'flex';
+            nextBtn.style.display = 'flex';
+        }
     }
 
     function closeLightbox() {
-        document.getElementById('lightbox').style.display = 'none';
+        const lightbox = document.getElementById('lightbox');
+        lightbox.classList.remove('active');
+        setTimeout(() => {
+            lightbox.style.display = 'none';
+            document.getElementById('lightbox-img').src = '';
+        }, 400); // Matches transition duration
     }
 
-    function nextImage() {
-        currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
-        document.getElementById('lightbox-img').src = galleryImages[currentImageIndex];
+    function changeImageWithAnimation(newIndex) {
+        const img = document.getElementById('lightbox-img');
+        img.style.opacity = '0';
+        img.style.transform = 'scale(0.95)';
+        
+        setTimeout(() => {
+            currentImageIndex = newIndex;
+            img.src = galleryImages[currentImageIndex];
+            
+            img.onload = () => {
+                img.style.opacity = '1';
+                img.style.transform = 'scale(1)';
+            };
+        }, 200);
     }
 
-    function prevImage() {
-        currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
-        document.getElementById('lightbox-img').src = galleryImages[currentImageIndex];
+    function nextImage(event) {
+        if (galleryImages.length <= 1) return;
+        if(event) event.stopPropagation();
+        const newIndex = (currentImageIndex + 1) % galleryImages.length;
+        changeImageWithAnimation(newIndex);
+    }
+
+    function prevImage(event) {
+        if (galleryImages.length <= 1) return;
+        if(event) event.stopPropagation();
+        const newIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
+        changeImageWithAnimation(newIndex);
     }
 
     // Draggable slider functionality with smooth momentum
     const slider = document.getElementById('gallerySlider');
-    const sliderContainer = slider.parentElement;
+    let sliderContainer;
     let isDown = false;
     let startX;
     let scrollLeft;
@@ -552,123 +777,130 @@
     let autoScrollInterval;
     let scrollDirection = 1; // 1 for right, -1 for left
 
-    // Auto-scroll functionality
-    function startAutoScroll() {
-        if (autoScrollInterval) clearInterval(autoScrollInterval);
-        autoScrollInterval = setInterval(() => {
-            if (!isDown && !isDragging) {
-                sliderContainer.scrollLeft += 2 * scrollDirection;
+    // Only initialize slider if it exists
+    if (slider) {
+        sliderContainer = slider.parentElement;
 
-                // Reverse direction when reaching end
-                if (sliderContainer.scrollLeft >= sliderContainer.scrollWidth - sliderContainer.clientWidth) {
-                    scrollDirection = -1;
-                }
-
-                // Reverse direction when reaching beginning
-                if (sliderContainer.scrollLeft <= 0) {
-                    scrollDirection = 1;
-                }
+        // Auto-scroll functionality
+        function startAutoScroll() {
+            // Only auto-scroll if there's content to scroll
+            if (sliderContainer.scrollWidth <= sliderContainer.clientWidth) {
+                return;
             }
-        }, 20);
-    }
+            if (autoScrollInterval) clearInterval(autoScrollInterval);
+            autoScrollInterval = setInterval(() => {
+                if (!isDown && !isDragging) {
+                    sliderContainer.scrollLeft += 1.5 * scrollDirection;
 
-    function stopAutoScroll() {
-        if (autoScrollInterval) {
-            clearInterval(autoScrollInterval);
-            autoScrollInterval = null;
+                    // Reverse direction when reaching end
+                    if (sliderContainer.scrollLeft >= sliderContainer.scrollWidth - sliderContainer.clientWidth - 1) {
+                        scrollDirection = -1;
+                    }
+
+                    // Reverse direction when reaching beginning
+                    if (sliderContainer.scrollLeft <= 0) {
+                        scrollDirection = 1;
+                    }
+                }
+            }, 20);
         }
-    }
 
-    // Start auto-scroll on load
-    startAutoScroll();
+        function stopAutoScroll() {
+            if (autoScrollInterval) {
+                clearInterval(autoScrollInterval);
+                autoScrollInterval = null;
+            }
+        }
 
-    // Pause auto-scroll on hover
-    sliderContainer.addEventListener('mouseenter', stopAutoScroll);
-    sliderContainer.addEventListener('mouseleave', () => {
-        if (!isDown) startAutoScroll();
-    });
+        // Start auto-scroll on load
+        startAutoScroll();
 
-    // Mouse events
-    sliderContainer.addEventListener('mousedown', (e) => {
-        isDown = true;
-        isDragging = false;
-        sliderContainer.style.cursor = 'grabbing';
-        startX = e.pageX - sliderContainer.offsetLeft;
-        scrollLeft = sliderContainer.scrollLeft;
-        lastX = startX;
-        velocity = 0;
-        stopAutoScroll();
-        cancelAnimationFrame(animationFrame);
-    });
+        // Pause auto-scroll on hover
+        sliderContainer.addEventListener('mouseenter', stopAutoScroll);
+        sliderContainer.addEventListener('mouseleave', () => {
+            if (!isDown) startAutoScroll();
+        });
 
-    sliderContainer.addEventListener('mouseleave', () => {
-        if (isDown) {
+        // Mouse events
+        sliderContainer.addEventListener('mousedown', (e) => {
+            isDown = true;
+            isDragging = false;
+            sliderContainer.style.cursor = 'grabbing';
+            startX = e.pageX - sliderContainer.offsetLeft;
+            scrollLeft = sliderContainer.scrollLeft;
+            lastX = startX;
+            velocity = 0;
+            stopAutoScroll();
+            cancelAnimationFrame(animationFrame);
+        });
+
+        sliderContainer.addEventListener('mouseleave', () => {
+            if (isDown) {
+                isDown = false;
+                sliderContainer.style.cursor = 'grab';
+                applyMomentum();
+            }
+        });
+
+        sliderContainer.addEventListener('mouseup', () => {
             isDown = false;
             sliderContainer.style.cursor = 'grab';
-            applyMomentum();
-        }
-    });
+            if (isDragging) {
+                applyMomentum();
+            }
+        });
 
-    sliderContainer.addEventListener('mouseup', () => {
-        isDown = false;
-        sliderContainer.style.cursor = 'grab';
-        if (!isDragging) {
-            // It was a click, not a drag
-        } else {
-            applyMomentum();
-        }
-    });
+        sliderContainer.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            isDragging = true;
+            const x = e.pageX - sliderContainer.offsetLeft;
+            const walk = (x - startX) * 2;
+            velocity = x - lastX;
+            lastX = x;
+            sliderContainer.scrollLeft = scrollLeft - walk;
+        });
 
-    sliderContainer.addEventListener('mousemove', (e) => {
-        if (!isDown) return;
-        e.preventDefault();
-        isDragging = true;
-        const x = e.pageX - sliderContainer.offsetLeft;
-        const walk = (x - startX) * 2;
-        velocity = x - lastX;
-        lastX = x;
-        sliderContainer.scrollLeft = scrollLeft - walk;
-    });
+        // Touch events for mobile
+        sliderContainer.addEventListener('touchstart', (e) => {
+            isDown = true;
+            isDragging = false;
+            startX = e.touches[0].pageX - sliderContainer.offsetLeft;
+            scrollLeft = sliderContainer.scrollLeft;
+            lastX = startX;
+            velocity = 0;
+            stopAutoScroll();
+            cancelAnimationFrame(animationFrame);
+        });
 
-    // Touch events for mobile
-    sliderContainer.addEventListener('touchstart', (e) => {
-        isDown = true;
-        isDragging = false;
-        startX = e.touches[0].pageX - sliderContainer.offsetLeft;
-        scrollLeft = sliderContainer.scrollLeft;
-        lastX = startX;
-        velocity = 0;
-        stopAutoScroll();
-        cancelAnimationFrame(animationFrame);
-    });
+        sliderContainer.addEventListener('touchend', () => {
+            isDown = false;
+            if (isDragging) {
+                applyMomentum();
+            }
+        });
 
-    sliderContainer.addEventListener('touchend', () => {
-        isDown = false;
-        if (isDragging) {
-            applyMomentum();
-        }
-    });
+        sliderContainer.addEventListener('touchmove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            isDragging = true;
+            const x = e.touches[0].pageX - sliderContainer.offsetLeft;
+            const walk = (x - startX) * 2;
+            velocity = x - lastX;
+            lastX = x;
+            sliderContainer.scrollLeft = scrollLeft - walk;
+        });
 
-    sliderContainer.addEventListener('touchmove', (e) => {
-        if (!isDown) return;
-        e.preventDefault();
-        isDragging = true;
-        const x = e.touches[0].pageX - sliderContainer.offsetLeft;
-        const walk = (x - startX) * 2;
-        velocity = x - lastX;
-        lastX = x;
-        sliderContainer.scrollLeft = scrollLeft - walk;
-    });
-
-    // Momentum effect for smooth scrolling
-    function applyMomentum() {
-        if (Math.abs(velocity) > 0.5) {
-            sliderContainer.scrollLeft -= velocity * 2;
-            velocity *= 0.95;
-            animationFrame = requestAnimationFrame(applyMomentum);
-        } else {
-            // Resume auto-scroll after momentum stops
-            startAutoScroll();
+        // Momentum effect for smooth scrolling
+        function applyMomentum() {
+            if (Math.abs(velocity) > 0.5) {
+                sliderContainer.scrollLeft -= velocity * 2;
+                velocity *= 0.95;
+                animationFrame = requestAnimationFrame(applyMomentum);
+            } else {
+                // Resume auto-scroll after momentum stops
+                startAutoScroll();
+            }
         }
     }
 
@@ -679,7 +911,7 @@
             if (entry.isIntersecting) {
                 const img = entry.target;
                 img.style.opacity = '0';
-                img.style.transition = 'opacity 0.3s ease';
+                img.style.transition = 'opacity 0.6s ease';
                 img.src = img.dataset.src;
                 img.onload = function() {
                     img.style.opacity = '1';
@@ -697,12 +929,15 @@
 
     // Close lightbox on escape key
     document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            closeLightbox();
-        } else if (e.key === 'ArrowRight') {
-            nextImage();
-        } else if (e.key === 'ArrowLeft') {
-            prevImage();
+        const lightbox = document.getElementById('lightbox');
+        if (lightbox.classList.contains('active')) {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            } else if (e.key === 'ArrowRight') {
+                nextImage();
+            } else if (e.key === 'ArrowLeft') {
+                prevImage();
+            }
         }
     });
 

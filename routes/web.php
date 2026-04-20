@@ -7,31 +7,21 @@ Route::get('/', function () {
     // Get announcement from database
     $announcement = App\Models\Announcement::where('is_active', true)->first();
 
-    // Get gallery settings and images from database (limit to 6)
+    // Get gallery settings and images
     $gallery = App\Models\Gallery::where('is_active', true)->first();
     $galleryImages = [];
-    $galleryItems = App\Models\Gallery::where('is_active', true)->orderBy('order')->limit(6)->get();
-    foreach ($galleryItems as $item) {
-        if ($item->image_path) {
-            $galleryImages[] = $item->image_path;
-        }
-    }
 
-    // Also include images from public directory (for compatibility with uploaded files, limit to 6 total)
+    // Get images from public directory (CMS uploads them here)
     $publicPath = public_path();
-    if (is_dir($publicPath) && count($galleryImages) < 6) {
+    if (is_dir($publicPath)) {
         $files = scandir($publicPath);
         foreach ($files as $file) {
-            // Only include image files that aren't already in the database
-            if ($file !== '.' && $file !== '..' && preg_match('/\.(jpg|jpeg|png|gif)$/i', $file) && !in_array($file, $galleryImages)) {
+            // Only include image files
+            if ($file !== '.' && $file !== '..' && preg_match('/\.(jpg|jpeg|png|gif)$/i', $file)) {
                 $galleryImages[] = $file;
-                if (count($galleryImages) >= 6) break;
             }
         }
     }
-
-    // Limit to 6 images total
-    $galleryImages = array_slice($galleryImages, 0, 6);
 
     // Get team members from database
     $teamMembers = App\Models\TeamMember::where('is_active', true)->orderBy('order')->get();
