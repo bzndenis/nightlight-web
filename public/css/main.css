@@ -1,27 +1,65 @@
-/* =================================================================== 
+/* ===================================================================
  *
- *  Dazzle v1.0 Main Stylesheet
- *  04-27-2017
+ *  NightLight v2.0 - Celestial Night Journey Theme
+ *  Design Spec: 2026-05-08-nightlight-homepage-design.md
  *  ------------------------------------------------------------------
  *
  *  TOC:
- *  01. webfonts and iconfonts
- *  02. base style overrides
- *  03. typography & general theme styles
- *  04. preloader
- *  05. forms
- *  06. buttons
- *  07. other components
- *  08. common and reusable theme styles
- *  09. header styles
- *  10. home
- *  11. about
- *  12. pricing 
- *  13. testimonials
- *  14. download
+ *  01. CSS Variables (Design Tokens)
+ *  02. webfonts and iconfonts
+ *  03. base style overrides
+ *  04. typography & general theme styles
+ *  05. preloader
+ *  06. forms
+ *  07. buttons
+ *  08. other components
+ *  09. common and reusable theme styles
+ *  10. header styles
+ *  11. home
+ *  12. about
+ *  13. pricing
+ *  14. testimonials
  *  15. footer styles
+ *  16. animations & effects
  *
  * =================================================================== */
+
+
+/* ===================================================================
+ *  01. CSS Variables (Design Tokens) - Monochrome Elegant Theme
+ *
+ * ------------------------------------------------------------------- */
+:root {
+  /* Color Palette - Black & White Elegant */
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #141414;
+  --bg-tertiary: #1f1f1f;
+  --bg-card: #181818;
+  --accent-primary: #ffffff;
+  --accent-secondary: #e0e0e0;
+  --accent-tertiary: #888888;
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --text-muted: #666666;
+  --border-color: #2a2a2a;
+  --glow-white: rgba(255, 255, 255, 0.15);
+  --glow-subtle: rgba(255, 255, 255, 0.05);
+
+  /* Typography */
+  --font-display: 'Cinzel', Georgia, serif;
+  --font-body: 'Nunito Sans', system-ui, sans-serif;
+
+  /* Spacing */
+  --section-padding: 8rem;
+  --container-max: 1400px;
+  --grid-gap: 2rem;
+  --card-padding: 2rem;
+
+  /* Transitions */
+  --transition-fast: 0.3s ease;
+  --transition-medium: 0.5s ease;
+  --transition-slow: 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
 
 
 /* ===================================================================
@@ -29,7 +67,7 @@
  *
  * ------------------------------------------------------------------- */
 
-@import url("font-awesome/css/font-awesome.min.css");
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
 @import url("micons/micons.css");
 @import url("fonts.css");
 
@@ -67,11 +105,11 @@ body {
 }
 
 body {
-  background: #141515;
-  font-family: "muli-regular", sans-serif;
+  background: var(--bg-primary);
+  font-family: var(--font-body);
   font-size: 1.6rem;
   line-height: 1.875;
-  color: #767676;
+  color: var(--text-secondary);
   margin: 0;
   padding: 0;
 }
@@ -83,14 +121,14 @@ body {
 
 a,
 a:visited {
-  color: #0087cc;
+  color: var(--accent-primary);
   -webkit-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
 }
 
 a:hover,
 a:focus {
-  color: #46305e;
+  color: var(--accent-secondary);
 }
 
 
@@ -100,8 +138,8 @@ a:focus {
  * ------------------------------------------------------------------- */
 
 h1, h2, h3, h4, h5, h6, .h01, .h02, .h03, .h04, .h05, .h06 {
-  font-family: "montserrat-regular", sans-serif;
-  color: #151515;
+  font-family: var(--font-display);
+  color: var(--text-primary);
   font-style: normal;
   text-rendering: optimizeLegibility;
   margin-bottom: 2.4rem;
@@ -775,14 +813,15 @@ input[type="button"]:focus {
   outline: 0;
 }
 
+/* Button */
 .button.button-primary,
 button.button-primary,
 input[type="submit"].button-primary,
 input[type="reset"].button-primary,
 input[type="button"].button-primary {
-  background-color: #46305e;
-  border-color: #46305e;
-  color: #FFFFFF;
+  background-color: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: var(--bg-primary);
 }
 
 .button.button-primary:hover,
@@ -795,8 +834,8 @@ button.button-primary:focus,
 input[type="submit"].button-primary:focus,
 input[type="reset"].button-primary:focus,
 input[type="button"].button-primary:focus {
-  background: #8815d8;
-  border-color: #8815d8;
+  background: var(--accent-secondary);
+  border-color: var(--accent-secondary);
 }
 
 button.full-width,
@@ -1071,12 +1110,13 @@ input::-moz-focus-inner {
  * ------------------------------------------------------------------- */
 
 h1.intro-header {
-  font-family: "montserrat-regular", sans-serif;
-  font-size: 3.4rem;
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 4vw, 3.4rem);
   line-height: 1.324;
-  color: #151515;
+  color: var(--text-primary);
   position: relative;
   padding-bottom: 3.6rem;
+  text-shadow: 0 0 20px var(--glow-white);
 }
 
 h1.intro-header::before {
@@ -1084,10 +1124,11 @@ h1.intro-header::before {
   content: "";
   height: 2px;
   width: 70px;
-  background-color: #46305e;
+  background-color: var(--accent-primary);
   position: absolute;
   left: 0;
   bottom: 0;
+  box-shadow: 0 0 10px var(--glow-white);
 }
 
 .wide {
@@ -1106,13 +1147,16 @@ h1.intro-header::before {
 
 @media only screen and (max-width: 768px) {
   h1.intro-header {
-    font-size: 3.1rem;
+    font-size: 2.8rem;
+  }
+  h1.intro-header::before {
+    left: 0;
   }
 }
 
 @media only screen and (max-width: 600px) {
   h1.intro-header {
-    font-size: 2.6rem;
+    font-size: 2.4rem;
   }
 }
 
@@ -1126,13 +1170,18 @@ h1.intro-header::before {
 #header {
   width: 100%;
   height: 72px;
-  background-color: #111111;
+  background-color: transparent;
   position: fixed;
   left: 50%;
   -webkit-transform: translateX(-50%);
   -ms-transform: translateX(-50%);
   transform: translateX(-50%);
   z-index: 501;
+  transition: background-color var(--transition-medium);
+}
+
+#header.scrolled {
+  background-color: var(--bg-primary);
 }
 
 
@@ -1158,10 +1207,11 @@ h1.intro-header::before {
   padding: 0;
   outline: 0;
   border: none;
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: 700;
-  color: #ffffff;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  font-family: var(--font-display);
+  color: var(--text-primary);
+  text-shadow: 0 0 20px var(--glow-white), 0 0 40px var(--glow-white);
   -webkit-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
 }
@@ -1289,16 +1339,16 @@ h1.intro-header::before {
 
 #header-nav-wrap .header-main-nav li a,
 #header-nav-wrap .header-main-nav li a:visited {
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--text-secondary);
 }
 
 #header-nav-wrap .header-main-nav li a:hover,
 #header-nav-wrap .header-main-nav li a:focus {
-  color: #ffffff;
+  color: var(--accent-primary);
 }
 
 #header-nav-wrap .header-main-nav li.current a {
-  color: #ffffff;
+  color: var(--accent-primary);
 }
 
 #header-nav-wrap .cta {
@@ -1396,11 +1446,34 @@ h1.intro-header::before {
 
 #home {
   width: 100%;
-  height: 786px;
-  min-height: 786px;
-  background-color: transparent;
+  height: 100vh;
+  min-height: 700px;
+  background: var(--bg-primary);
   position: relative;
   display: table;
+  overflow: hidden;
+}
+
+/* Warm light rays from top */
+#home::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150%;
+  height: 150%;
+  background: radial-gradient(ellipse at center top, var(--glow-white) 0%, transparent 60%);
+  opacity: 0.15;
+  animation: glowPulse 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Ambient glow pulse */
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.15; transform: translateX(-50%) scale(1); }
+  50% { opacity: 0.25; transform: translateX(-50%) scale(1.1); }
 }
 
 #home .shadow-overlay {
@@ -1409,15 +1482,12 @@ h1.intro-header::before {
   left: 0;
   width: 100%;
   height: 100%;
-  opacity: .2;
-  background: -moz-linear-gradient(left, black 0%, black 20%, transparent 100%);
-  /* FF3.6-15 */
-  background: -webkit-linear-gradient(left, black 0%, black 20%, transparent 100%);
-  /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to right, black 0%, black 20%, transparent 100%);
-  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#00000000', GradientType=1);
-  /* IE6-9 */
+  opacity: .4;
+  background: -moz-linear-gradient(left, var(--bg-primary) 0%, var(--bg-primary) 20%, transparent 100%);
+  background: -webkit-linear-gradient(left, var(--bg-primary) 0%, var(--bg-primary) 20%, transparent 100%);
+  background: linear-gradient(to right, var(--bg-primary) 0%, var(--bg-primary) 20%, transparent 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1a1410', endColorstr='#1a141000', GradientType=1);
+  z-index: 2;
 }
 
 #home .overlay {
@@ -1426,19 +1496,22 @@ h1.intro-header::before {
   left: 0;
   width: 100%;
   height: 100%;
-  opacity: .2;
-  background-color: #000000;
+  opacity: .6;
+  background: linear-gradient(180deg, var(--bg-primary) 0%, transparent 30%, transparent 70%, var(--bg-primary) 100%);
+  z-index: 2;
 }
 
 .no-js #home {
-  background: #151515;
+  background: var(--bg-primary);
 }
 
 .home-content {
   display: table-cell;
   width: 100%;
   height: 100%;
-  vertical-align: bottom;
+  vertical-align: middle;
+  position: relative;
+  z-index: 10;
 }
 
 .home-content .contents {
@@ -1448,30 +1521,80 @@ h1.intro-header::before {
 .home-content-left {
   padding: 15rem 0 12rem 40px;
   position: relative;
-  width: 50%;
+  width: 55%;
+  z-index: 10;
 }
 
 .home-content-left h3 {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--accent-primary);
   font-size: 1.6rem;
   line-height: 1.5;
   text-transform: uppercase;
-  letter-spacing: .2rem;
+  letter-spacing: .3rem;
   margin-bottom: 2.4rem;
+  font-family: var(--font-body);
+  font-weight: 600;
 }
 
 .home-content-left h1 {
-  font-family: "montserrat-regular", sans-serif;
-  font-size: 5.2rem;
-  letter-spacing: -.05rem;
-  line-height: 1.269;
-  color: #ffffff;
-  margin-bottom: 9rem;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 5vw, 5.2rem);
+  letter-spacing: -.02rem;
+  line-height: 1.15;
+  color: var(--text-primary);
+  margin-bottom: 3rem;
+  text-shadow: 0 0 30px var(--glow-white);
+}
+
+/* Hero breathing animation */
+#home .home-content {
+  animation: heroBreathing 4s ease-in-out infinite;
+}
+
+@keyframes heroBreathing {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.01); }
+}
+
+/* Staggered entrance animations */
+.home-content-left h3 {
+  animation: fadeSlideUp 0.8s ease forwards;
+  animation-delay: 0.2s;
+  opacity: 0;
+}
+
+.home-content-left h1 {
+  animation: fadeSlideUp 0.8s ease forwards;
+  animation-delay: 0.4s;
+  opacity: 0;
+}
+
+.home-content-left .discord-button-wrapper {
+  animation: fadeSlideUp 0.8s ease forwards;
+  animation-delay: 0.6s;
+  opacity: 0;
+}
+
+.home-content-left .buttons {
+  animation: fadeSlideUp 0.8s ease forwards;
+  animation-delay: 0.8s;
+  opacity: 0;
+}
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .home-content-left .button.stroke {
-  color: #ffffff !important;
-  border-color: #ffffff;
+  color: var(--text-primary) !important;
+  border-color: var(--accent-primary);
   margin: 0 .6rem 1.2rem;
   padding: 0 2.2rem;
   min-width: 188px;
@@ -1485,8 +1608,9 @@ h1.intro-header::before {
 
 .home-content-left .button.stroke:hover,
 .home-content-left .button.stroke:focus {
-  background-color: white !important;
-  color: #000000 !important;
+  background-color: var(--accent-primary) !important;
+  color: var(--bg-primary) !important;
+  box-shadow: 0 0 20px var(--glow-white);
 }
 
 .home-image-right {
@@ -1584,11 +1708,11 @@ html[data-useragent*='MSIE 10.0'] .home-scrolldown,
 
 .scroll-icon {
   display: inline-block;
-  font-family: "montserrat-medium", sans-serif;
+  font-family: var(--font-body);
   font-size: 1.2rem;
   text-transform: uppercase;
   letter-spacing: .3rem;
-  color: #FFFFFF !important;
+  color: var(--accent-primary) !important;
   background: transparent;
   position: relative;
   top: 36px;
@@ -1601,6 +1725,11 @@ html[data-useragent*='MSIE 10.0'] .home-scrolldown,
   font-size: 2.4rem;
   position: relative;
   bottom: -6px;
+}
+
+.home-scrolldown a:hover,
+.home-scrolldown a:focus {
+  color: var(--accent-secondary) !important;
 }
 
 
@@ -1829,14 +1958,14 @@ html[data-useragent*='MSIE 10.0'] .home-scrolldown,
 
 #about {
   min-height: 786px;
-  background: #ffffff;
+  background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
   padding-top: 18rem;
   overflow: hidden;
 }
 
 .about-intro {
   padding-bottom: 3.6rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  border-bottom: 1px solid rgba(248, 244, 232, 0.1);
 }
 
 .about-features .features-list {
@@ -1853,14 +1982,14 @@ html[data-useragent*='MSIE 10.0'] .home-scrolldown,
 }
 
 .about-features .feature .icon i {
-  color: #46305e;
+  color: var(--accent-primary);
   font-size: 4.8rem;
 }
 
 .about-features .feature h3 {
-  font-family: "montserrat-regular", sans-serif;
+  font-family: var(--font-display);
   font-size: 1.9rem;
-  color: #151515;
+  color: var(--text-primary);
   margin-bottom: 3rem;
 }
 
@@ -2072,7 +2201,7 @@ html[data-useragent*='MSIE 10.0'] .home-scrolldown,
  * ------------------------------------------------------------------- */
 
 #pricing {
-  background: #ebebeb;
+  background: var(--bg-secondary);
   padding-top: 15rem;
   padding-bottom: 12rem;
 }
@@ -2261,14 +2390,15 @@ html[data-useragent*='MSIE 10.0'] .home-scrolldown,
  * ------------------------------------------------------------------- */
 
 #testimonials {
-  background: #FFFFFF;
+  background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
 }
 
-#testimonials h1::before {
-  left: 50%;
-  -webkit-transform: translateX(-50%);
-  -ms-transform: translateX(-50%);
-  transform: translateX(-50%);
+#testimonials h1.intro-header {
+  color: var(--text-primary);
+}
+
+#testimonials h1.intro-header::before {
+  background-color: var(--accent-primary);
 }
 
 #testimonials .owl-wrap {
@@ -2287,20 +2417,21 @@ html[data-useragent*='MSIE 10.0'] .home-scrolldown,
 }
 
 #testimonial-slider p {
-  font-family: "muli-regular", sans-serif;
+  font-family: var(--font-body);
   font-size: 3.2rem;
   line-height: 1.5;
-  color: #303030;
+  color: var(--text-primary);
 }
 
 #testimonial-slider p::before,
 #testimonial-slider p::after {
   display: inline-block;
-  font-family: "muli-regular", serif;
+  font-family: var(--font-display);
   font-size: 3.6rem;
   line-height: 1;
   position: relative;
   top: .3rem;
+  color: var(--accent-primary);
 }
 
 #testimonial-slider p::before {
@@ -2553,17 +2684,19 @@ footer {
   padding-bottom: 4.2rem;
   font-size: 1.5rem;
   line-height: 2.7rem;
-  color: rgba(255, 255, 255, 0.25);
+  color: var(--text-secondary);
+  background: linear-gradient(180deg, var(--bg-primary) 0%, #0f0d0a 100%);
 }
 
 footer a,
 footer a:visited {
-  color: #46305e;
+  color: var(--accent-primary);
 }
 
 footer a:hover,
 footer a:focus {
-  color: white;
+  color: var(--accent-secondary);
+  text-shadow: 0 0 10px var(--glow-white);
 }
 
 footer h4 {
@@ -2605,12 +2738,18 @@ footer ul a:visited {
   padding: 0;
   outline: 0;
   border: none;
-  font-size: 1.6rem;
+  font-size: 2rem;
   font-weight: 700;
-  color: #ffffff;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  font-family: var(--font-display);
+  color: var(--text-primary);
+  text-shadow: 0 0 20px var(--glow-white);
   -webkit-transition: all 0.5s ease-in-out;
   transition: all 0.5s ease-in-out;
+}
+
+.footer-logo:hover {
+  color: var(--accent-primary);
+  text-shadow: 0 0 30px var(--glow-white);
 }
 
 .footer-social-list {
@@ -2907,14 +3046,16 @@ footer ul a:visited {
 }
 
 
-/* Announcement Section */
+/* Announcement Section - Glassmorphism */
 .announcement-section {
   width: 100%;
   text-align: center;
   padding: 5rem 0;
-  background: linear-gradient(135deg, rgba(88, 101, 242, 0.1) 0%, rgba(114, 137, 218, 0.05) 100%);
-  border-top: 3px solid #5865F2;
-  border-bottom: 3px solid #5865F2;
+  background: rgba(245, 166, 35, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(245, 166, 35, 0.2);
+  border-bottom: 1px solid rgba(245, 166, 35, 0.2);
   margin: 3rem 0;
   position: relative;
   overflow: hidden;
@@ -2927,8 +3068,17 @@ footer ul a:visited {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(90deg, transparent, rgba(88, 101, 242, 0.05), transparent);
-  animation: announcement-shine 4s ease-in-out infinite;
+  background: linear-gradient(90deg, transparent, rgba(245, 166, 35, 0.1), transparent);
+  animation: announcement-shimmer 3s ease-in-out infinite;
+}
+
+@keyframes announcement-shimmer {
+  0%, 100% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
 }
 
 .announcement-content {
@@ -2938,46 +3088,29 @@ footer ul a:visited {
 }
 
 .announcement-content h3 {
-  font-family: "montserrat-bold", sans-serif;
-  font-size: 3rem;
-  color: #5865F2;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--accent-primary);
   margin-bottom: 2rem;
   text-transform: uppercase;
-  letter-spacing: 0.3rem;
-  text-shadow: 0 2px 10px rgba(88, 101, 242, 0.2);
-  position: relative;
-  display: inline-block;
+  letter-spacing: 0.2rem;
+  text-shadow: 0 0 20px var(--glow-white);
+  animation: bounceIcon 2s ease-in-out infinite;
 }
 
-.announcement-content h3::before {
-  content: '📢';
-  margin-right: 1rem;
-  font-size: 2.5rem;
+@keyframes bounceIcon {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
 }
 
 .announcement-content p {
-  font-family: "muli-regular", sans-serif;
+  font-family: var(--font-body);
   font-size: 1.8rem;
-  color: #333;
+  color: var(--text-primary);
   line-height: 1.9;
   max-width: 800px;
   margin: 0 auto;
-  background: rgba(255, 255, 255, 0.8);
-  padding: 2rem 3rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  border-left: 5px solid #5865F2;
-}
-
-@keyframes announcement-shine {
-  0%, 100% {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-  50% {
-    opacity: 1;
-    transform: translateX(100%);
-  }
+  text-shadow: 0 0 10px rgba(248, 244, 232, 0.3);
 }
 
 @media only screen and (max-width: 768px) {

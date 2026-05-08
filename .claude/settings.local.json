@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Force)",
+      "Bash(Select-Object Name, Mode)",
+      "Bash(powershell *)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
+    ]
+  }
+}
