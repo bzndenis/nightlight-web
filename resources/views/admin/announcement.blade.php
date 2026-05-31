@@ -1,19 +1,14 @@
+@section('page-title', 'Announcement')
 @extends('admin.layout')
 
 @section('content')
-    <div class="page-header" data-aos="fade-up">
-        <h1>Announcement</h1>
-        <p class="page-subtitle">Manage your guild announcement</p>
-    </div>
-
-    <div class="glass-card" data-aos="fade-up" data-aos-delay="100">
-        <h2 class="section-title">Edit Announcement</h2>
+    <div class="glass-card">
         <form method="POST" action="{{ route('admin.announcement.update') }}">
             @csrf
             <div class="form-row">
                 <div class="form-group">
                     <label class="form-label" for="title">Title</label>
-                    <input class="form-control" type="text" id="title" name="title" value="{{ $announcement->title ?? 'ANNOUNCEMENTS' }}" required>
+                    <input class="form-input" type="text" id="title" name="title" value="{{ $announcement->title ?? 'ANNOUNCEMENTS' }}" required>
                 </div>
                 <div class="form-group form-group--toggle">
                     <label class="toggle-label">
@@ -24,9 +19,9 @@
             </div>
             <div class="form-group">
                 <label class="form-label" for="content">Content</label>
-                <textarea class="form-control" id="content" name="content" style="min-height: 150px;" required>{{ $announcement->content ?? 'Welcome to NightLight Guild! Stay tuned for updates and news.' }}</textarea>
+                <textarea class="form-textarea" id="content" name="content" required>{{ $announcement->content ?? 'Welcome to NightLight Guild! Stay tuned for updates and news.' }}</textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Update Announcement</button>
+            <button type="submit" class="btn-primary">Update Announcement</button>
         </form>
     </div>
 @endsection
@@ -34,10 +29,9 @@
 @push('styles')
 <style>
 .form-row {
-    display: grid;
-    grid-template-columns: 1fr auto;
+    display: flex;
     gap: 1rem;
-    align-items: end;
+    align-items: flex-end;
 }
 .toggle-label {
     display: flex;
