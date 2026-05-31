@@ -43,7 +43,7 @@
                 @foreach($images as $image)
                 <div class="image-grid-item">
                     <img src="{{ asset($image->path) }}" alt="Gallery Image">
-                    <form method="POST" action="{{ route('admin.gallery.image.delete', $image->filename) }}" onsubmit="return confirm('Are you sure you want to delete this image?');">
+                    <form method="POST" action="{{ route('admin.gallery.image.delete', $image->filename) }}">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Delete</button>
@@ -82,19 +82,19 @@
         }
     });
 
-    galleryUploadForm.addEventListener('dragover', function(e) {
+    dropZoneArea.addEventListener('dragover', function(e) {
         e.preventDefault();
         e.stopPropagation();
         dropZoneArea.classList.add('drag-over');
     });
 
-    galleryUploadForm.addEventListener('dragleave', function(e) {
+    dropZoneArea.addEventListener('dragleave', function(e) {
         e.preventDefault();
         e.stopPropagation();
         dropZoneArea.classList.remove('drag-over');
     });
 
-    galleryUploadForm.addEventListener('drop', function(e) {
+    dropZoneArea.addEventListener('drop', function(e) {
         e.preventDefault();
         e.stopPropagation();
         dropZoneArea.classList.remove('drag-over');
@@ -111,6 +111,15 @@
                 <p style="font-size: 1.6rem; color: #46305e;">${fileText}</p>
                 <p style="font-size: 1.4rem; color: #999;">Click to change</p>
             `;
+        }
+    });
+
+    // Delegated confirmation for delete forms
+    document.querySelector('.image-grid').addEventListener('submit', function(e) {
+        if (e.target.matches('form[action*="delete"]')) {
+            if (!confirm('Are you sure you want to delete this image?')) {
+                e.preventDefault();
+            }
         }
     });
 })();
