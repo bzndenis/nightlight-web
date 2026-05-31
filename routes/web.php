@@ -176,39 +176,52 @@ Route::prefix('admin')->name('admin.')->group(function () {
             return back()->with('error', 'Image not found');
         })->name('gallery.image.delete');
         
-        Route::get('/team', function () {
-            $teamMembers = App\Models\TeamMember::orderBy('order')->get();
-            return view('admin.team', compact('teamMembers'));
+        Route::get('/team', function (Illuminate\Http\Request $request) {
+            $sortBy = $request->get('sort', 'order');
+            $sortDir = $request->get('dir', 'asc');
+            $allowedSorts = ['id', 'name', 'role', 'order', 'is_active', 'created_at'];
+            if (!in_array($sortBy, $allowedSorts)) $sortBy = 'order';
+            $sortDir = $sortDir === 'desc' ? 'desc' : 'asc';
+            $teamMembers = App\Models\TeamMember::orderBy($sortBy, $sortDir)->get();
+            return view('admin.team', compact('teamMembers', 'sortBy', 'sortDir'));
         })->name('team');
 
         Route::post('/team', function (Illuminate\Http\Request $request) {
-            $avatarPath = null;
-            
-            // Handle avatar upload
-            if ($request->hasFile('avatar')) {
-                $image = $request->file('avatar');
-                $imageName = time() . '_' . $image->getClientOriginalName();
-                $image->move(public_path('images/avatars'), $imageName);
-                $avatarPath = 'images/avatars/' . $imageName;
+            $maxOrder = App\Models\TeamMember::max('order') ?? 0;
+            $saved = 0;
+            $names = $request->input('name', []);
+            $roles = $request->input('role', []);
+            $quotes = $request->input('quote', []);
+            $avatars = $request->files->get('avatar', []);
+
+            foreach ($names as $i => $name) {
+                if (trim($name) === '') continue;
+                $avatarPath = null;
+                if (isset($avatars[$i]) && $avatars[$i]->isValid()) {
+                    $image = $avatars[$i];
+                    $imageName = time() . '_' . $i . '_' . $image->getClientOriginalName();
+                    $image->move(public_path('images/avatars'), $imageName);
+                    $avatarPath = 'images/avatars/' . $imageName;
+                }
+                App\Models\TeamMember::create([
+                    'name' => trim($name),
+                    'role' => trim($roles[$i] ?? ''),
+                    'quote' => trim($quotes[$i] ?? ''),
+                    'avatar' => $avatarPath,
+                    'order' => $maxOrder + $saved + 1,
+                    'is_active' => true
+                ]);
+                $saved++;
             }
-            
-            App\Models\TeamMember::create([
-                'name' => $request->name,
-                'role' => $request->role,
-                'quote' => $request->quote,
-                'avatar' => $avatarPath,
-                'order' => App\Models\TeamMember::max('order') + 1,
-                'is_active' => true
-            ]);
-            return back()->with('success', 'Team member added successfully');
+
+            if ($saved > 0) {
+                return back()->with('success', "$saved team member(s) added successfully");
+            }
+            return back()->with('error', 'No valid team member data provided');
         })->name('team.store');
 
         Route::get('/team/{id}/edit', function ($id) {
-            $member = App\Models\TeamMember::find($id);
-            if (!$member) {
-                return back()->with('error', 'Team member not found');
-            }
-            return view('admin.team-edit', compact('member'));
+            return redirect()->route('admin.team', ['edit' => $id]);
         })->name('team.edit');
 
         Route::put('/team/{id}', function (Illuminate\Http\Request $request, $id) {
@@ -233,6 +246,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             $member->name = $request->name;
             $member->role = $request->role;
             $member->quote = $request->quote;
+            $member->order = $request->order ?? $member->order;
             $member->is_active = $request->has('is_active');
             $member->save();
             
