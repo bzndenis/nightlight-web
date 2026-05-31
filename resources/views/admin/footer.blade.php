@@ -71,8 +71,4 @@
     </div>
 @endsection
 
-@push('styles')
-<style>
-.text-center { text-align: center; }
-</style>
 @endpush

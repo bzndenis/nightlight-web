@@ -26,19 +26,4 @@
     </div>
 @endsection
 
-@push('styles')
-<style>
-.form-row {
-    display: flex;
-    gap: 1rem;
-    align-items: flex-end;
-}
-.toggle-label {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    cursor: pointer;
-    padding-bottom: 0.5rem;
-}
-</style>
 @endpush

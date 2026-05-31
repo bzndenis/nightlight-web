@@ -232,20 +232,4 @@ if (el) {
 </script>
 @endpush
 
-@push('styles')
-<style>
-.batch-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr auto; gap: 0.75rem; align-items: end; padding: 0.75rem; border: 1px solid #333; border-radius: 8px; margin-bottom: 0.5rem; }
-.batch-grid .form-group { margin-bottom: 0; }
-.batch-grid .form-input,
-.batch-grid .form-textarea { width: 100%; }
-.batch-actions { display: flex; align-items: center; gap: 1rem; margin-top: 0.5rem; }
-.drag-handle { cursor: grab; color: #475569; font-size: 1.1rem; padding: 4px; display: inline-block; }
-.drag-handle:active { cursor: grabbing; }
-.draggable-row td { vertical-align: middle; }
-.sortable-ghost { opacity: 0.4; background: #1e293b; border-radius: 4px; }
-.modal-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
-.drag-col { width: 40px; }
-form.inline-form { display: inline; }
-td.text-center, .empty-state { text-align: center; }
-</style>
 @endpush
