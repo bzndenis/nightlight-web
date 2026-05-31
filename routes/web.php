@@ -60,7 +60,20 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Protected routes
     Route::group(['middleware' => 'auth'], function () {
         Route::get('/dashboard', function () {
-            return view('admin.dashboard');
+            $totalMembers = \App\Models\TeamMember::where('is_active', true)->count();
+            $publicPath = public_path();
+            $totalImages = 0;
+            if (is_dir($publicPath)) {
+                $files = scandir($publicPath);
+                foreach ($files as $file) {
+                    if (preg_match('/\.(jpg|jpeg|png|gif)$/i', $file)) {
+                        $totalImages++;
+                    }
+                }
+            }
+            $activeAnnouncements = \App\Models\Announcement::where('is_active', true)->count();
+            $totalFooterLinks = \App\Models\FooterLink::count();
+            return view('admin.dashboard', compact('totalMembers', 'totalImages', 'activeAnnouncements', 'totalFooterLinks'));
         })->name('dashboard');
         
         Route::get('/announcement', function () {
