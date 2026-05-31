@@ -45,7 +45,7 @@
         <table class="admin-table" data-aos="fade-up" data-aos-delay="200">
             <thead>
                 <tr>
-                    <th class="table-th" style="width:40px;"></th>
+                    <th class="table-th drag-col"></th>
                     <th class="table-th"><a href="{{ route('admin.team', ['sort' => 'id', 'dir' => $sortBy === 'id' && $sortDir === 'asc' ? 'desc' : 'asc']) }}">ID {!! $sortBy === 'id' ? ($sortDir === 'asc' ? '&#8593;' : '&#8595;') : '' !!}</a></th>
                     <th class="table-th">Avatar</th>
                     <th class="table-th"><a href="{{ route('admin.team', ['sort' => 'name', 'dir' => $sortBy === 'name' && $sortDir === 'asc' ? 'desc' : 'asc']) }}">Name {!! $sortBy === 'name' ? ($sortDir === 'asc' ? '&#8593;' : '&#8595;') : '' !!}</a></th>
@@ -76,7 +76,7 @@
                         <td class="table-td">{!! $member->is_active ? '<span class="status-active">&#10003;</span>' : '<span class="status-inactive">&#10005;</span>' !!}</td>
                         <td class="table-td">
                             <button type="button" class="btn btn-primary btn-sm" onclick='openEditModal({{ json_encode($member) }})'>Edit</button>
-                            <form method="POST" action="{{ route('admin.team.delete', $member->id) }}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this team member?');">
+                            <form method="POST" action="{{ route('admin.team.delete', $member->id) }}" class="inline-form" onsubmit="return confirm('Are you sure you want to delete this team member?');">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
@@ -86,7 +86,7 @@
                     @endforeach
                 @else
                     <tr>
-                        <td class="table-td" colspan="9" style="text-align: center;">No team members found</td>
+                        <td class="table-td text-center" colspan="9">No team members found</td>
                     </tr>
                 @endif
             </tbody>
@@ -94,7 +94,7 @@
     </div>
 
     {{-- Inline Edit Modal --}}
-    <div id="edit-modal" class="modal-overlay" style="display:none;">
+    <div id="edit-modal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Edit Team Member</h2>
@@ -247,5 +247,9 @@ if (el) {
 .draggable-row td { vertical-align: middle; }
 .sortable-ghost { opacity: 0.4; background: #1e293b; border-radius: 4px; }
 .modal-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+.drag-col { width: 40px; }
+form.inline-form { display: inline; }
+td.text-center, .empty-state { text-align: center; }
+#edit-modal { display: none; }
 </style>
 @endpush

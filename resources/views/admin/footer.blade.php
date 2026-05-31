@@ -67,10 +67,16 @@
                     @endforeach
                 @else
                     <tr>
-                        <td class="table-td" colspan="4" style="text-align: center;">No links found</td>
+                        <td class="table-td text-center" colspan="4">No links found</td>
                     </tr>
                 @endif
             </tbody>
         </table>
     </div>
 @endsection
+
+@push('styles')
+<style>
+.text-center { text-align: center; }
+</style>
+@endpush
