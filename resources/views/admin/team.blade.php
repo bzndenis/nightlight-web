@@ -1,129 +1,127 @@
+@section('page-title', 'Team')
 @extends('admin.layout')
 
 @section('content')
-    <div class="page-header" data-aos="fade-down">
-        <h1>Team</h1>
-        <p class="page-subtitle">Manage your guild team members</p>
-    </div>
-
     {{-- Batch Add Form --}}
-    <div class="glass-card" data-aos="fade-up">
+    <div class="glass-card">
         <h2 class="section-title">Add Team Members</h2>
         <form method="POST" action="{{ route('admin.team.store') }}" enctype="multipart/form-data" id="batch-form" class="glass-form">
             @csrf
             <div id="member-fields-container">
-                <div class="member-row batch-row" data-index="0">
+                <div class="member-row batch-grid">
                     <div class="form-group">
                         <label class="form-label">Name</label>
-                        <input type="text" name="name[]" class="form-control" required>
+                        <input type="text" name="name[]" class="form-input" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Role</label>
-                        <input type="text" name="role[]" class="form-control" required>
+                        <input type="text" name="role[]" class="form-input" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Quote</label>
-                        <textarea name="quote[]" class="form-control" required></textarea>
+                        <textarea name="quote[]" class="form-textarea" required></textarea>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Avatar</label>
-                        <input type="file" name="avatar[]" class="form-control" accept="image/*">
+                        <input type="file" name="avatar[]" class="form-input" accept="image/*">
                     </div>
                     <button type="button" class="btn-remove-row" onclick="removeBatchRow(this)" title="Remove">&#10005;</button>
                 </div>
             </div>
             <div class="batch-actions">
                 <button type="button" class="btn-add-row" onclick="addBatchRow()">+ Add Another</button>
-                <button type="submit" class="btn btn-primary" data-aos="fade-up" data-aos-delay="400">Add Team Members</button>
+                <button type="submit" class="btn-primary">Add Team Members</button>
             </div>
         </form>
     </div>
 
     {{-- Team Members Table with Sorting --}}
-    <div class="glass-card" data-aos="fade-up" data-aos-delay="100">
+    <div class="glass-card">
         <h2 class="section-title">Team Members <span class="badge">drag rows to reorder</span></h2>
-        <table class="admin-table" data-aos="fade-up" data-aos-delay="200">
-            <thead>
-                <tr>
-                    <th class="table-th drag-col"></th>
-                    <th class="table-th"><a href="{{ route('admin.team', ['sort' => 'id', 'dir' => $sortBy === 'id' && $sortDir === 'asc' ? 'desc' : 'asc']) }}">ID {!! $sortBy === 'id' ? ($sortDir === 'asc' ? '&#8593;' : '&#8595;') : '' !!}</a></th>
-                    <th class="table-th">Avatar</th>
-                    <th class="table-th"><a href="{{ route('admin.team', ['sort' => 'name', 'dir' => $sortBy === 'name' && $sortDir === 'asc' ? 'desc' : 'asc']) }}">Name {!! $sortBy === 'name' ? ($sortDir === 'asc' ? '&#8593;' : '&#8595;') : '' !!}</a></th>
-                    <th class="table-th"><a href="{{ route('admin.team', ['sort' => 'role', 'dir' => $sortBy === 'role' && $sortDir === 'asc' ? 'desc' : 'asc']) }}">Role {!! $sortBy === 'role' ? ($sortDir === 'asc' ? '&#8593;' : '&#8595;') : '' !!}</a></th>
-                    <th class="table-th">Quote</th>
-                    <th class="table-th"><a href="{{ route('admin.team', ['sort' => 'order', 'dir' => $sortBy === 'order' && $sortDir === 'asc' ? 'desc' : 'asc']) }}">Order {!! $sortBy === 'order' ? ($sortDir === 'asc' ? '&#8593;' : '&#8595;') : '' !!}</a></th>
-                    <th class="table-th"><a href="{{ route('admin.team', ['sort' => 'is_active', 'dir' => $sortBy === 'is_active' && $sortDir === 'asc' ? 'desc' : 'asc']) }}">Active {!! $sortBy === 'is_active' ? ($sortDir === 'asc' ? '&#8593;' : '&#8595;') : '' !!}</a></th>
-                    <th class="table-th">Actions</th>
-                </tr>
-            </thead>
-            <tbody id="team-table-body">
-                @if(isset($teamMembers) && count($teamMembers) > 0)
-                    @foreach($teamMembers as $member)
-                    <tr data-id="{{ $member->id }}" class="draggable-row">
-                        <td class="table-td"><span class="drag-handle" title="Drag to reorder">&#9776;</span></td>
-                        <td class="table-td">{{ $member->id }}</td>
-                        <td class="table-td">
-                            @if($member->avatar)
-                                <img src="{{ asset($member->avatar) }}" alt="{{ $member->name }}" class="avatar-thumb">
-                            @else
-                                <img src="{{ asset('images/avatars/user-01.jpg') }}" alt="Default" class="avatar-thumb">
-                            @endif
-                        </td>
-                        <td class="table-td">{{ $member->name }}</td>
-                        <td class="table-td">{{ $member->role }}</td>
-                        <td class="table-td">{{ Str::limit($member->quote, 50) }}</td>
-                        <td class="table-td order-cell">{{ $member->order }}</td>
-                        <td class="table-td">{!! $member->is_active ? '<span class="status-active">&#10003;</span>' : '<span class="status-inactive">&#10005;</span>' !!}</td>
-                        <td class="table-td">
-                            <button type="button" class="btn btn-primary btn-sm" onclick='openEditModal({{ json_encode($member) }})'>Edit</button>
-                            <form method="POST" action="{{ route('admin.team.delete', $member->id) }}" class="inline-form" onsubmit="return confirm('Are you sure you want to delete this team member?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
-                @else
+        <div class="glass-table">
+            <table class="admin-table">
+                <thead>
                     <tr>
-                        <td class="table-td text-center" colspan="9">No team members found</td>
+                        <th class="drag-col"></th>
+                        <th><a href="{{ route('admin.team', ['sort' => 'id', 'dir' => $sortBy === 'id' && $sortDir === 'asc' ? 'desc' : 'asc']) }}">ID {!! $sortBy === 'id' ? ($sortDir === 'asc' ? '&#8593;' : '&#8595;') : '' !!}</a></th>
+                        <th>Avatar</th>
+                        <th><a href="{{ route('admin.team', ['sort' => 'name', 'dir' => $sortBy === 'name' && $sortDir === 'asc' ? 'desc' : 'asc']) }}">Name {!! $sortBy === 'name' ? ($sortDir === 'asc' ? '&#8593;' : '&#8595;') : '' !!}</a></th>
+                        <th><a href="{{ route('admin.team', ['sort' => 'role', 'dir' => $sortBy === 'role' && $sortDir === 'asc' ? 'desc' : 'asc']) }}">Role {!! $sortBy === 'role' ? ($sortDir === 'asc' ? '&#8593;' : '&#8595;') : '' !!}</a></th>
+                        <th>Quote</th>
+                        <th><a href="{{ route('admin.team', ['sort' => 'order', 'dir' => $sortBy === 'order' && $sortDir === 'asc' ? 'desc' : 'asc']) }}">Order {!! $sortBy === 'order' ? ($sortDir === 'asc' ? '&#8593;' : '&#8595;') : '' !!}</a></th>
+                        <th><a href="{{ route('admin.team', ['sort' => 'is_active', 'dir' => $sortBy === 'is_active' && $sortDir === 'asc' ? 'desc' : 'asc']) }}">Active {!! $sortBy === 'is_active' ? ($sortDir === 'asc' ? '&#8593;' : '&#8595;') : '' !!}</a></th>
+                        <th>Actions</th>
                     </tr>
-                @endif
-            </tbody>
-        </table>
+                </thead>
+                <tbody id="team-table-body">
+                    @if(isset($teamMembers) && count($teamMembers) > 0)
+                        @foreach($teamMembers as $member)
+                        <tr data-id="{{ $member->id }}" class="draggable-row">
+                            <td><span class="drag-handle" title="Drag to reorder">&#9776;</span></td>
+                            <td>{{ $member->id }}</td>
+                            <td>
+                                @if($member->avatar)
+                                    <img src="{{ asset($member->avatar) }}" alt="{{ $member->name }}" class="avatar-sm">
+                                @else
+                                    <img src="{{ asset('images/avatars/user-01.jpg') }}" alt="Default" class="avatar-sm">
+                                @endif
+                            </td>
+                            <td>{{ $member->name }}</td>
+                            <td>{{ $member->role }}</td>
+                            <td>{{ Str::limit($member->quote, 50) }}</td>
+                            <td class="order-cell">{{ $member->order }}</td>
+                            <td>{!! $member->is_active ? '<span class="status-active">&#10003;</span>' : '<span class="status-inactive">&#10005;</span>' !!}</td>
+                            <td class="table-actions">
+                                <button type="button" class="btn-edit-inline" onclick='openEditModal({{ json_encode($member) }})'>Edit</button>
+                                <form method="POST" action="{{ route('admin.team.delete', $member->id) }}" class="inline-form" onsubmit="return confirm('Are you sure you want to delete this team member?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-danger">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    @else
+                        <tr>
+                            <td colspan="9" class="text-center">No team members found</td>
+                        </tr>
+                    @endif
+                </tbody>
+            </table>
+        </div>
     </div>
 
     {{-- Inline Edit Modal --}}
-    <div id="edit-modal" class="modal-overlay">
-        <div class="modal-content">
+    <div id="edit-modal" class="modal-overlay" style="display:none;">
+        <div class="modal-panel">
             <div class="modal-header">
                 <h2>Edit Team Member</h2>
-                <button type="button" class="modal-close" onclick="closeEditModal()">&times;</button>
+                <button type="button" class="modal-close" onclick="closeEditModal()">×</button>
             </div>
-            <form method="POST" action="" id="edit-form" enctype="multipart/form-data" class="glass-form">
+            <form method="POST" action="" id="edit-form" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="id" id="edit-id">
                 <div class="form-group">
                     <label class="form-label" for="edit-name">Name</label>
-                    <input type="text" id="edit-name" name="name" class="form-control" required>
+                    <input type="text" id="edit-name" name="name" class="form-input" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="edit-role">Role</label>
-                    <input type="text" id="edit-role" name="role" class="form-control" required>
+                    <input type="text" id="edit-role" name="role" class="form-input" required>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="edit-quote">Quote</label>
-                    <textarea id="edit-quote" name="quote" class="form-control" required></textarea>
+                    <textarea id="edit-quote" name="quote" class="form-textarea" required></textarea>
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="edit-order">Order</label>
-                    <input type="number" id="edit-order" name="order" class="form-control" min="0">
+                    <input type="number" id="edit-order" name="order" class="form-input" min="0">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="edit-avatar">Avatar Photo</label>
                     <div id="edit-current-avatar"></div>
-                    <input type="file" id="edit-avatar" name="avatar" class="form-control" accept="image/*">
+                    <input type="file" id="edit-avatar" name="avatar" class="form-input" accept="image/*">
                     <small>Leave empty to keep current avatar</small>
                 </div>
                 <div class="form-group">
@@ -133,8 +131,8 @@
                     </label>
                 </div>
                 <div class="modal-actions">
-                    <button type="submit" class="btn btn-primary">Update</button>
-                    <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Update</button>
+                    <button type="button" class="btn-secondary" onclick="closeEditModal()">Cancel</button>
                 </div>
             </form>
         </div>
@@ -146,11 +144,11 @@
 function addBatchRow() {
     const container = document.getElementById('member-fields-container');
     const index = container.querySelectorAll('.member-row').length;
-    const html = `<div class="member-row batch-row" data-index="${index}">
-        <div class="form-group"><label class="form-label">Name</label><input type="text" name="name[]" class="form-control" required></div>
-        <div class="form-group"><label class="form-label">Role</label><input type="text" name="role[]" class="form-control" required></div>
-        <div class="form-group"><label class="form-label">Quote</label><textarea name="quote[]" class="form-control" required></textarea></div>
-        <div class="form-group"><label class="form-label">Avatar</label><input type="file" name="avatar[]" class="form-control" accept="image/*"></div>
+    const html = `<div class="member-row batch-grid">
+        <div class="form-group"><label class="form-label">Name</label><input type="text" name="name[]" class="form-input" required></div>
+        <div class="form-group"><label class="form-label">Role</label><input type="text" name="role[]" class="form-input" required></div>
+        <div class="form-group"><label class="form-label">Quote</label><textarea name="quote[]" class="form-textarea" required></textarea></div>
+        <div class="form-group"><label class="form-label">Avatar</label><input type="file" name="avatar[]" class="form-input" accept="image/*"></div>
         <button type="button" class="btn-remove-row" onclick="removeBatchRow(this)" title="Remove">&#10005;</button>
     </div>`;
     container.insertAdjacentHTML('beforeend', html);
@@ -175,9 +173,9 @@ function openEditModal(member) {
     document.getElementById('edit-form').action = '/admin/team/' + member.id;
     const avatarDiv = document.getElementById('edit-current-avatar');
     if (member.avatar) {
-        avatarDiv.innerHTML = '<p>Current Avatar:</p><img src="/' + member.avatar + '" class="avatar-thumb">';
+        avatarDiv.innerHTML = '<p>Current Avatar:</p><img src="/' + member.avatar + '" class="avatar-sm">';
     } else {
-        avatarDiv.innerHTML = '<p>Current Avatar:</p><img src="/images/avatars/user-01.jpg" class="avatar-thumb">';
+        avatarDiv.innerHTML = '<p>Current Avatar:</p><img src="/images/avatars/user-01.jpg" class="avatar-sm">';
     }
     document.getElementById('edit-modal').style.display = 'flex';
 }
@@ -236,11 +234,10 @@ if (el) {
 
 @push('styles')
 <style>
-.batch-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr auto; gap: 0.75rem; align-items: end; padding: 0.75rem; border: 1px solid #333; border-radius: 8px; margin-bottom: 0.5rem; }
-.batch-row .form-group { margin-bottom: 0; }
-.batch-row .form-control { width: 100%; }
-.btn-remove-row { background: #ef4444; color: #fff; border: none; border-radius: 4px; width: 32px; height: 32px; cursor: pointer; font-size: 1rem; flex-shrink: 0; }
-.btn-add-row { background: #1e293b; color: #94a3b8; border: 1px dashed #334155; border-radius: 6px; padding: 0.5rem 1rem; cursor: pointer; font-size: 0.875rem; }
+.batch-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr auto; gap: 0.75rem; align-items: end; padding: 0.75rem; border: 1px solid #333; border-radius: 8px; margin-bottom: 0.5rem; }
+.batch-grid .form-group { margin-bottom: 0; }
+.batch-grid .form-input,
+.batch-grid .form-textarea { width: 100%; }
 .batch-actions { display: flex; align-items: center; gap: 1rem; margin-top: 0.5rem; }
 .drag-handle { cursor: grab; color: #475569; font-size: 1.1rem; padding: 4px; display: inline-block; }
 .drag-handle:active { cursor: grabbing; }
@@ -250,6 +247,5 @@ if (el) {
 .drag-col { width: 40px; }
 form.inline-form { display: inline; }
 td.text-center, .empty-state { text-align: center; }
-#edit-modal { display: none; }
 </style>
 @endpush
