@@ -39,7 +39,7 @@
                 </svg>
             </div>
             <div class="stat-number">{{ $totalMembers }}</div>
-            <div class="stat-label">Team Members</div>
+            <div class="stat-label">Total Members</div>
         </div>
 
         <div class="glass-card stats-card">
