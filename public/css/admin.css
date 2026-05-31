@@ -917,6 +917,56 @@ html.light-mode .theme-toggle .toggle-thumb {
   color: var(--text-secondary);
 }
 
+/* ===== Quick Action Card ===== */
+.quick-action-card {
+  background: var(--bg-card);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.quick-action-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-cyan);
+  box-shadow: var(--shadow-glow-cyan);
+}
+
+.quick-action-card .quick-action-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+  background: var(--accent-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.quick-action-card .quick-action-icon svg {
+  width: 28px;
+  height: 28px;
+  color: white;
+}
+
+.quick-action-card .quick-action-text h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.quick-action-card .quick-action-text p {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
 /* ===== Drag Handle ===== */
 .drag-handle {
   cursor: grab;
