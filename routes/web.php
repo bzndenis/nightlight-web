@@ -33,27 +33,28 @@ Route::get('/', function () {
     return view('home', compact('announcement', 'gallery', 'galleryImages', 'teamMembers', 'footerSettings', 'footerLinks'));
 });
 
+// Login route (outside admin group so auth middleware can find 'login' route)
+Route::get('/login', function () {
+    return view('admin.login');
+})->name('login');
+
+Route::post('/login', function (Illuminate\Http\Request $request) {
+    $credentials = $request->only('email', 'password');
+
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
+        return redirect()->route('admin.dashboard');
+    }
+
+    return back()->with('error', 'Invalid credentials');
+})->name('login.submit');
+
 // Admin routes
 Route::prefix('admin')->name('admin.')->group(function () {
-    // Login
-    Route::get('/login', function () {
-        return view('admin.login');
-    })->name('login');
-    
-    Route::post('/login', function (Illuminate\Http\Request $request) {
-        $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->route('admin.dashboard');
-        }
-
-        return back()->with('error', 'Invalid credentials');
-    })->name('login.submit');
-    
     Route::match(['get', 'post'], '/logout', function () {
         Auth::logout();
-        return redirect()->route('admin.login');
+        return redirect()->route('login');
     })->name('logout');
     
     // Protected routes
