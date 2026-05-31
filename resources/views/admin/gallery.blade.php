@@ -1,5 +1,5 @@
-@section('page-title', 'Gallery')
 @extends('admin.layout')
+@section('page-title', 'Gallery')
 
 @section('content')
     <div class="glass-card">
@@ -124,13 +124,16 @@
             }
         });
 
-        document.querySelector('.admin-table').addEventListener('submit', function(e) {
-            if (e.target.matches('form[action*="delete"]')) {
-                if (!confirm('Are you sure you want to delete this image?')) {
-                    e.preventDefault();
+        const table = document.querySelector('.admin-table');
+        if (table) {
+            table.addEventListener('submit', function(e) {
+                if (e.target.matches('form[action*="delete"]')) {
+                    if (!confirm('Are you sure you want to delete this image?')) {
+                        e.preventDefault();
+                    }
                 }
-            }
-        });
+            });
+        }
     })();
     </script>
     @endpush
