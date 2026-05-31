@@ -1,33 +1,50 @@
 @extends('admin.layout')
 
 @section('content')
-    <div class="admin-header" data-aos="fade-down">
-        <h1>Announcement Management</h1>
+    <div class="page-header" data-aos="fade-up">
+        <h1>Announcement</h1>
+        <p class="page-subtitle">Manage your guild announcement</p>
     </div>
 
-    <div class="card" data-aos="fade-up">
-        <h2>Edit Announcement</h2>
+    <div class="glass-card" data-aos="fade-up" data-aos-delay="100">
+        <h2 class="section-title">Edit Announcement</h2>
         <form method="POST" action="{{ route('admin.announcement.update') }}">
             @csrf
-
-            <div class="form-group" data-aos="fade-up" data-aos-delay="100">
-                <label for="title">Title</label>
-                <input type="text" id="title" name="title" value="{{ $announcement->title ?? 'ANNOUNCEMENTS' }}" required>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label" for="title">Title</label>
+                    <input class="form-control" type="text" id="title" name="title" value="{{ $announcement->title ?? 'ANNOUNCEMENTS' }}" required>
+                </div>
+                <div class="form-group form-group--toggle">
+                    <label class="toggle-label">
+                        <input type="checkbox" name="is_active" value="1" {{ ($announcement->is_active ?? true) ? 'checked' : '' }}>
+                        <span>Active</span>
+                    </label>
+                </div>
             </div>
-
-            <div class="form-group" data-aos="fade-up" data-aos-delay="200">
-                <label for="content">Content</label>
-                <textarea id="content" name="content" required>{{ $announcement->content ?? 'Welcome to NightLight Guild! Stay tuned for updates and news.' }}</textarea>
+            <div class="form-group">
+                <label class="form-label" for="content">Content</label>
+                <textarea class="form-control" id="content" name="content" style="min-height: 150px;" required>{{ $announcement->content ?? 'Welcome to NightLight Guild! Stay tuned for updates and news.' }}</textarea>
             </div>
-
-            <div class="form-group" data-aos="fade-up" data-aos-delay="250">
-                <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;">
-                    <input type="checkbox" name="is_active" value="1" {{ ($announcement->is_active ?? true) ? 'checked' : '' }}>
-                    Active
-                </label>
-            </div>
-
-            <button type="submit" data-aos="fade-up" data-aos-delay="300">Update Announcement</button>
+            <button type="submit" class="btn btn-primary">Update Announcement</button>
         </form>
     </div>
 @endsection
+
+@push('styles')
+<style>
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: end;
+}
+.toggle-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    padding-bottom: 0.5rem;
+}
+</style>
+@endpush

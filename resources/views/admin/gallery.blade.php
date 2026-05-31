@@ -1,76 +1,59 @@
 @extends('admin.layout')
 
 @section('content')
-    <div class="admin-header" data-aos="fade-down">
-        <h1>Gallery Management</h1>
+    <div class="page-header" data-aos="fade-up">
+        <h1>Gallery</h1>
+        <p class="page-subtitle">Manage your guild gallery</p>
     </div>
 
-    <div class="card" data-aos="fade-up">
-        <h2>Gallery Description</h2>
+    <div class="glass-card" data-aos="fade-up" data-aos-delay="100">
+        <h2 class="section-title">Gallery Info</h2>
         <form method="POST" action="{{ route('admin.gallery.update') }}">
             @csrf
-
-            <div class="form-group" data-aos="fade-up" data-aos-delay="100">
-                <label for="title">Title</label>
-                <input type="text" id="title" name="title" value="{{ $gallery->title ?? 'GALLERY' }}" required>
+            <div class="form-group">
+                <label class="form-label" for="title">Title</label>
+                <input class="form-control" type="text" id="title" name="title" value="{{ $gallery->title ?? 'GALLERY' }}" required>
             </div>
-
-            <div class="form-group" data-aos="fade-up" data-aos-delay="200">
-                <label for="description">Description</label>
-                <textarea id="description" name="description" required>{{ $gallery->description ?? 'Explore our gallery featuring memorable moments from guild events, raids, and community gatherings. See our adventures and achievements captured in screenshots.' }}</textarea>
+            <div class="form-group">
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" id="description" name="description" required>{{ $gallery->description ?? 'Explore our gallery featuring memorable moments from guild events, raids, and community gatherings. See our adventures and achievements captured in screenshots.' }}</textarea>
             </div>
-
-            <button type="submit" data-aos="fade-up" data-aos-delay="300">Update Gallery Info</button>
+            <button type="submit" class="btn btn-primary">Update Gallery Info</button>
         </form>
     </div>
 
-    <div class="card" data-aos="fade-up" data-aos-delay="100">
-        <h2>Gallery Images</h2>
-        <form method="POST" action="{{ route('admin.gallery.image.add') }}" enctype="multipart/form-data" id="dropZone">
+    <div class="glass-card" data-aos="fade-up" data-aos-delay="200">
+        <h2 class="section-title">Gallery Images</h2>
+
+        <form method="POST" action="{{ route('admin.gallery.image.add') }}" enctype="multipart/form-data" id="galleryUploadForm">
             @csrf
-            <div class="form-group" data-aos="fade-up" data-aos-delay="100" style="text-align: center;">
-                <div id="dropZoneArea" style="border: 3px dashed #8815d8; border-radius: 16px; padding: 3rem; background: rgba(136, 21, 216, 0.05); cursor: pointer; transition: all 0.3s ease;">
-                    <div id="dropZoneContent">
-                        <div style="font-size: 4rem; margin-bottom: 1rem;">📁</div>
-                        <p style="font-size: 1.6rem; color: #46305e; margin-bottom: 1rem;">Drag & Drop images here</p>
-                        <p style="font-size: 1.4rem; color: #999;">or click to browse (multiple files supported)</p>
-                    </div>
-                    <input type="file" id="image" name="images[]" accept="image/*" multiple required style="display: none;">
+            <div class="drop-zone" id="dropZoneArea">
+                <div id="dropZoneContent">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">&#128193;</div>
+                    <p style="font-size: 1.6rem; color: #46305e; margin-bottom: 1rem;">Drag & Drop images here</p>
+                    <p style="font-size: 1.4rem; color: #999;">or click to browse (multiple files supported)</p>
                 </div>
+                <input type="file" id="image" name="images[]" accept="image/*" multiple required style="display: none;">
             </div>
-            <button type="submit" data-aos="fade-up" data-aos-delay="200" style="width: 100%;">Upload Images</button>
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Upload Images</button>
         </form>
 
-        <table data-aos="fade-up" data-aos-delay="300">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Image</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if(isset($images) && count($images) > 0)
-                    @foreach($images as $image)
-                    <tr>
-                        <td>{{ $image->id }}</td>
-                        <td><img src="{{ asset($image->path) }}" alt="Gallery Image" style="max-width: 150px; border-radius: 8px;"></td>
-                        <td>
-                            <form method="POST" action="{{ route('admin.gallery.image.delete', $image->filename) }}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this image?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn-danger">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @endforeach
-                @else
-                    <tr>
-                        <td colspan="3" style="text-align: center;">No images found</td>
-                    </tr>
-                @endif
-            </tbody>
-        </table>
+        <div class="image-grid" style="margin-top: 2rem;">
+            @if(isset($images) && count($images) > 0)
+                @foreach($images as $image)
+                <div class="image-grid-item">
+                    <img src="{{ asset($image->path) }}" alt="Gallery Image">
+                    <form method="POST" action="{{ route('admin.gallery.image.delete', $image->filename) }}" onsubmit="return confirm('Are you sure you want to delete this image?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+                @endforeach
+            @else
+                <p style="text-align: center; color: #999; grid-column: 1 / -1;">No images found</p>
+            @endif
+        </div>
     </div>
 
 @push('scripts')
@@ -79,16 +62,18 @@
     const dropZoneArea = document.getElementById('dropZoneArea');
     const dropZoneContent = document.getElementById('dropZoneContent');
     const fileInput = document.getElementById('image');
-    const dropZone = document.getElementById('dropZone');
+    const galleryUploadForm = document.getElementById('galleryUploadForm');
 
-    dropZoneArea.addEventListener('click', function() {
-        fileInput.click();
+    dropZoneArea.addEventListener('click', function(e) {
+        if (e.target.tagName !== 'INPUT') {
+            fileInput.click();
+        }
     });
 
     fileInput.addEventListener('change', function(e) {
         if (e.target.files.length > 0) {
             const fileCount = e.target.files.length;
-            const fileText = fileCount === 1 ? e.target.files[0].name : `${fileCount} images selected`;
+            const fileText = fileCount === 1 ? e.target.files[0].name : fileCount + ' images selected';
             dropZoneContent.innerHTML = `
                 <div style="font-size: 4rem; margin-bottom: 1rem;">&#10003;</div>
                 <p style="font-size: 1.6rem; color: #46305e;">${fileText}</p>
@@ -97,25 +82,22 @@
         }
     });
 
-    dropZone.addEventListener('dragover', function(e) {
+    galleryUploadForm.addEventListener('dragover', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        dropZoneArea.style.background = 'rgba(136, 21, 216, 0.1)';
-        dropZoneArea.style.borderColor = '#a855f7';
+        dropZoneArea.classList.add('drag-over');
     });
 
-    dropZone.addEventListener('dragleave', function(e) {
+    galleryUploadForm.addEventListener('dragleave', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        dropZoneArea.style.background = 'rgba(136, 21, 216, 0.05)';
-        dropZoneArea.style.borderColor = '#8815d8';
+        dropZoneArea.classList.remove('drag-over');
     });
 
-    dropZone.addEventListener('drop', function(e) {
+    galleryUploadForm.addEventListener('drop', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        dropZoneArea.style.background = 'rgba(136, 21, 216, 0.05)';
-        dropZoneArea.style.borderColor = '#8815d8';
+        dropZoneArea.classList.remove('drag-over');
 
         const files = e.dataTransfer.files;
         if (files.length > 0) {
@@ -123,7 +105,7 @@
             for (let i = 0; i < files.length; i++) dt.items.add(files[i]);
             fileInput.files = dt.files;
             const fileCount = files.length;
-            const fileText = fileCount === 1 ? files[0].name : `${fileCount} images selected`;
+            const fileText = fileCount === 1 ? files[0].name : fileCount + ' images selected';
             dropZoneContent.innerHTML = `
                 <div style="font-size: 4rem; margin-bottom: 1rem;">&#10003;</div>
                 <p style="font-size: 1.6rem; color: #46305e;">${fileText}</p>
@@ -134,3 +116,4 @@
 })();
 </script>
 @endpush
+@endsection
