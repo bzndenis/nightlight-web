@@ -121,15 +121,15 @@
 
             <div class="admin-page">
                 @if(session('success'))
-                    <div class="alert alert-success" style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+                    <div class="alert alert-success">
                         <span>{{ session('success') }}</span>
-                        <button onclick="this.parentElement.remove()" style="background:none;border:none;color:inherit;font-size:1.2rem;cursor:pointer;line-height:1;">&times;</button>
+                        <button onclick="this.parentElement.remove()" class="alert-close">&times;</button>
                     </div>
                 @endif
                 @if(session('error'))
-                    <div class="alert alert-error" style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+                    <div class="alert alert-error">
                         <span>{{ session('error') }}</span>
-                        <button onclick="this.parentElement.remove()" style="background:none;border:none;color:inherit;font-size:1.2rem;cursor:pointer;line-height:1;">&times;</button>
+                        <button onclick="this.parentElement.remove()" class="alert-close">&times;</button>
                     </div>
                 @endif
 
