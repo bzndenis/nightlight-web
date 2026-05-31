@@ -187,6 +187,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
             return view('admin.team', compact('teamMembers', 'sortBy', 'sortDir'));
         })->name('team');
 
+        Route::post('/team/reorder', function (Illuminate\Http\Request $request) {
+            $ids = $request->input('ids', []);
+            foreach ($ids as $index => $id) {
+                App\Models\TeamMember::where('id', $id)->update(['order' => $index + 1]);
+            }
+            return response()->json(['success' => true]);
+        })->name('team.reorder');
+
         Route::post('/team', function (Illuminate\Http\Request $request) {
             $maxOrder = App\Models\TeamMember::max('order') ?? 0;
             $saved = 0;

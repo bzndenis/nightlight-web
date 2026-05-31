@@ -40,10 +40,11 @@
 
     {{-- Team Members Table with Sorting --}}
     <div class="card" data-aos="fade-up" data-aos-delay="100">
-        <h2>Team Members</h2>
+        <h2>Team Members <small style="font-weight:400;color:#64748b;">(drag rows to reorder)</small></h2>
         <table data-aos="fade-up" data-aos-delay="200">
             <thead>
                 <tr>
+                    <th style="width:40px;"></th>
                     <th><a href="{{ route('admin.team', ['sort' => 'id', 'dir' => $sortBy === 'id' && $sortDir === 'asc' ? 'desc' : 'asc']) }}">ID {!! $sortBy === 'id' ? ($sortDir === 'asc' ? '&#8593;' : '&#8595;') : '' !!}</a></th>
                     <th>Avatar</th>
                     <th><a href="{{ route('admin.team', ['sort' => 'name', 'dir' => $sortBy === 'name' && $sortDir === 'asc' ? 'desc' : 'asc']) }}">Name {!! $sortBy === 'name' ? ($sortDir === 'asc' ? '&#8593;' : '&#8595;') : '' !!}</a></th>
@@ -54,10 +55,11 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="team-table-body">
                 @if(isset($teamMembers) && count($teamMembers) > 0)
                     @foreach($teamMembers as $member)
-                    <tr>
+                    <tr data-id="{{ $member->id }}" class="draggable-row">
+                        <td><span class="drag-handle" title="Drag to reorder">&#9776;</span></td>
                         <td>{{ $member->id }}</td>
                         <td>
                             @if($member->avatar)
@@ -69,7 +71,7 @@
                         <td>{{ $member->name }}</td>
                         <td>{{ $member->role }}</td>
                         <td>{{ Str::limit($member->quote, 50) }}</td>
-                        <td>{{ $member->order }}</td>
+                        <td class="order-cell">{{ $member->order }}</td>
                         <td>{!! $member->is_active ? '<span style="color:#4ade80;">&#10003;</span>' : '<span style="color:#f87171;">&#10005;</span>' !!}</td>
                         <td>
                             <button type="button" class="btn-edit-inline" onclick='openEditModal({{ json_encode($member) }})'>Edit</button>
@@ -83,7 +85,7 @@
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="8" style="text-align: center;">No team members found</td>
+                        <td colspan="9" style="text-align: center;">No team members found</td>
                     </tr>
                 @endif
             </tbody>
@@ -139,6 +141,7 @@
 @endsection
 
 @push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
 <script>
 function addBatchRow() {
     const container = document.getElementById('member-fields-container');
@@ -186,6 +189,49 @@ function closeEditModal() {
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeEditModal();
 });
+
+// Drag-and-drop reorder with SortableJS
+const el = document.getElementById('team-table-body');
+if (el) {
+    const sortable = Sortable.create(el, {
+        animation: 200,
+        handle: '.drag-handle',
+        ghostClass: 'sortable-ghost',
+        onEnd: function(evt) {
+            const rows = el.querySelectorAll('tr[data-id]');
+            const ids = [];
+            const orders = [];
+            rows.forEach((row, index) => {
+                ids.push(row.dataset.id);
+                orders.push(index + 1);
+                row.querySelector('.order-cell').textContent = index + 1;
+            });
+
+            fetch('{{ route('admin.team.reorder') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ ids: ids })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    // visually confirm
+                    el.querySelectorAll('tr[data-id]').forEach((row, i) => {
+                        row.querySelector('.order-cell').textContent = i + 1;
+                    });
+                }
+            })
+            .catch(() => {
+                alert('Failed to save order. Please refresh and try again.');
+                location.reload();
+            });
+        }
+    });
+}
 </script>
 @endpush
 
@@ -201,6 +247,10 @@ document.addEventListener('keydown', function(e) {
 table th a { color: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
 table th a:hover { color: #3b82f6; }
 .btn-edit-inline { background: #1e293b; color: #94a3b8; border: 1px solid #334155; border-radius: 4px; padding: 0.25rem 0.75rem; cursor: pointer; font-size: 0.875rem; }
+.drag-handle { cursor: grab; color: #475569; font-size: 1.1rem; padding: 4px; display: inline-block; }
+.drag-handle:active { cursor: grabbing; }
+.draggable-row td { vertical-align: middle; }
+.sortable-ghost { opacity: 0.4; background: #1e293b; border-radius: 4px; }
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 1000; }
 .modal-content { background: #0f172a; border: 1px solid #1e293b; border-radius: 12px; padding: 2rem; width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; }
 .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
