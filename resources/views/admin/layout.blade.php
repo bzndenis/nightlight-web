@@ -19,6 +19,9 @@
     <link rel="stylesheet" href="{{ asset('css/base.css') }}">
     <link rel="stylesheet" href="{{ asset('css/vendor.css') }}">
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+
+    @stack('styles')
 
     <!-- favicons
 	================================================== -->
@@ -318,9 +321,10 @@
     <script src="{{ asset('js/jquery-2.1.3.min.js') }}"></script>
     <script src="{{ asset('js/plugins.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
 
     <script>
-        // Initialize AOS
         AOS.init({
             duration: 800,
             easing: 'ease-in-out',
@@ -328,6 +332,8 @@
             offset: 100
         });
     </script>
+
+    @stack('scripts')
 
 </body>
 

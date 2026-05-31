@@ -141,7 +141,6 @@
 @endsection
 
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
 <script>
 function addBatchRow() {
     const container = document.getElementById('member-fields-container');

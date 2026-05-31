@@ -73,65 +73,64 @@
         </table>
     </div>
 
-    <script>
-        // Drag and drop functionality
-        const dropZoneArea = document.getElementById('dropZoneArea');
-        const dropZoneContent = document.getElementById('dropZoneContent');
-        const fileInput = document.getElementById('image');
-        const dropZone = document.getElementById('dropZone');
+@push('scripts')
+<script>
+(function() {
+    const dropZoneArea = document.getElementById('dropZoneArea');
+    const dropZoneContent = document.getElementById('dropZoneContent');
+    const fileInput = document.getElementById('image');
+    const dropZone = document.getElementById('dropZone');
 
-        // Click to browse
-        dropZoneArea.addEventListener('click', function() {
-            fileInput.click();
-        });
+    dropZoneArea.addEventListener('click', function() {
+        fileInput.click();
+    });
 
-        // File input change
-        fileInput.addEventListener('change', function(e) {
-            if (e.target.files.length > 0) {
-                const fileCount = e.target.files.length;
-                const fileText = fileCount === 1 ? e.target.files[0].name : `${fileCount} images selected`;
-                dropZoneContent.innerHTML = `
-                    <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
-                    <p style="font-size: 1.6rem; color: #46305e;">${fileText}</p>
-                    <p style="font-size: 1.4rem; color: #999;">Click to change</p>
-                `;
-            }
-        });
+    fileInput.addEventListener('change', function(e) {
+        if (e.target.files.length > 0) {
+            const fileCount = e.target.files.length;
+            const fileText = fileCount === 1 ? e.target.files[0].name : `${fileCount} images selected`;
+            dropZoneContent.innerHTML = `
+                <div style="font-size: 4rem; margin-bottom: 1rem;">&#10003;</div>
+                <p style="font-size: 1.6rem; color: #46305e;">${fileText}</p>
+                <p style="font-size: 1.4rem; color: #999;">Click to change</p>
+            `;
+        }
+    });
 
-        // Drag over
-        dropZone.addEventListener('dragover', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            dropZoneArea.style.background = 'rgba(136, 21, 216, 0.1)';
-            dropZoneArea.style.borderColor = '#a855f7';
-        });
+    dropZone.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropZoneArea.style.background = 'rgba(136, 21, 216, 0.1)';
+        dropZoneArea.style.borderColor = '#a855f7';
+    });
 
-        // Drag leave
-        dropZone.addEventListener('dragleave', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            dropZoneArea.style.background = 'rgba(136, 21, 216, 0.05)';
-            dropZoneArea.style.borderColor = '#8815d8';
-        });
+    dropZone.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropZoneArea.style.background = 'rgba(136, 21, 216, 0.05)';
+        dropZoneArea.style.borderColor = '#8815d8';
+    });
 
-        // Drop
-        dropZone.addEventListener('drop', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            dropZoneArea.style.background = 'rgba(136, 21, 216, 0.05)';
-            dropZoneArea.style.borderColor = '#8815d8';
+    dropZone.addEventListener('drop', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        dropZoneArea.style.background = 'rgba(136, 21, 216, 0.05)';
+        dropZoneArea.style.borderColor = '#8815d8';
 
-            const files = e.dataTransfer.files;
-            if (files.length > 0) {
-                fileInput.files = files;
-                const fileCount = files.length;
-                const fileText = fileCount === 1 ? files[0].name : `${fileCount} images selected`;
-                dropZoneContent.innerHTML = `
-                    <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
-                    <p style="font-size: 1.6rem; color: #46305e;">${fileText}</p>
-                    <p style="font-size: 1.4rem; color: #999;">Click to change</p>
-                `;
-            }
-        });
-    </script>
-@endsection
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            const dt = new DataTransfer();
+            for (let i = 0; i < files.length; i++) dt.items.add(files[i]);
+            fileInput.files = dt.files;
+            const fileCount = files.length;
+            const fileText = fileCount === 1 ? files[0].name : `${fileCount} images selected`;
+            dropZoneContent.innerHTML = `
+                <div style="font-size: 4rem; margin-bottom: 1rem;">&#10003;</div>
+                <p style="font-size: 1.6rem; color: #46305e;">${fileText}</p>
+                <p style="font-size: 1.4rem; color: #999;">Click to change</p>
+            `;
+        }
+    });
+})();
+</script>
+@endpush
