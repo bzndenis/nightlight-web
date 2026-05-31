@@ -1,9 +1,5 @@
 <!DOCTYPE html>
-<!--[if lt IE 9 ]><html class="no-js oldie" lang="en"> <![endif]-->
-<!--[if IE 9 ]><html class="no-js oldie ie9" lang="en"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!-->
-<html class="no-js" lang="en">
-<!--<![endif]-->
+<html lang="en" class="no-js">
 
 <head>
 
@@ -46,7 +42,7 @@
                 <ul>
                     <li>
                         <a href="{{ route('admin.dashboard') }}"
-                           class="{{ request()->is('admin/dashboard') ? 'active' : '' }}"
+                           class="{{ request()->is('admin/dashboard*') ? 'active' : '' }}"
                            data-tooltip="Dashboard">
                             <i>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
@@ -56,7 +52,7 @@
                     </li>
                     <li>
                         <a href="{{ route('admin.announcement') }}"
-                           class="{{ request()->is('admin/announcement') ? 'active' : '' }}"
+                           class="{{ request()->is('admin/announcement*') ? 'active' : '' }}"
                            data-tooltip="Announcement">
                             <i>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 13v-2z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
@@ -66,7 +62,7 @@
                     </li>
                     <li>
                         <a href="{{ route('admin.gallery') }}"
-                           class="{{ request()->is('admin/gallery') ? 'active' : '' }}"
+                           class="{{ request()->is('admin/gallery*') ? 'active' : '' }}"
                            data-tooltip="Gallery">
                             <i>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
@@ -76,7 +72,7 @@
                     </li>
                     <li>
                         <a href="{{ route('admin.team') }}"
-                           class="{{ request()->is('admin/team') ? 'active' : '' }}"
+                           class="{{ request()->is('admin/team*') ? 'active' : '' }}"
                            data-tooltip="Team">
                             <i>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -86,7 +82,7 @@
                     </li>
                     <li>
                         <a href="{{ route('admin.footer') }}"
-                           class="{{ request()->is('admin/footer') ? 'active' : '' }}"
+                           class="{{ request()->is('admin/footer*') ? 'active' : '' }}"
                            data-tooltip="Footer">
                             <i>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
@@ -125,10 +121,16 @@
 
             <div class="admin-page">
                 @if(session('success'))
-                    <div class="alert alert-success">{{ session('success') }}</div>
+                    <div class="alert alert-success" style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+                        <span>{{ session('success') }}</span>
+                        <button onclick="this.parentElement.remove()" style="background:none;border:none;color:inherit;font-size:1.2rem;cursor:pointer;line-height:1;">&times;</button>
+                    </div>
                 @endif
                 @if(session('error'))
-                    <div class="alert alert-error">{{ session('error') }}</div>
+                    <div class="alert alert-error" style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+                        <span>{{ session('error') }}</span>
+                        <button onclick="this.parentElement.remove()" style="background:none;border:none;color:inherit;font-size:1.2rem;cursor:pointer;line-height:1;">&times;</button>
+                    </div>
                 @endif
 
                 @yield('content')
@@ -151,8 +153,10 @@
 
         // Sidebar expand on hover
         const sidebar = document.getElementById('adminSidebar');
-        sidebar.addEventListener('mouseenter', () => sidebar.classList.add('expanded'));
-        sidebar.addEventListener('mouseleave', () => sidebar.classList.remove('expanded'));
+        if (sidebar) {
+            sidebar.addEventListener('mouseenter', () => sidebar.classList.add('expanded'));
+            sidebar.addEventListener('mouseleave', () => sidebar.classList.remove('expanded'));
+        }
 
         // Theme toggle
         function applyTheme(isLight) {
@@ -166,10 +170,13 @@
         const savedTheme = localStorage.getItem('admin-theme');
         applyTheme(savedTheme === 'light');
 
-        document.getElementById('themeToggle').addEventListener('click', () => {
-            const isLight = document.documentElement.classList.toggle('light-mode');
-            localStorage.setItem('admin-theme', isLight ? 'light' : 'dark');
-        });
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                const isLight = document.documentElement.classList.toggle('light-mode');
+                localStorage.setItem('admin-theme', isLight ? 'light' : 'dark');
+            });
+        }
 
         // Toast helper
         function showToast(message, type = 'success') {
