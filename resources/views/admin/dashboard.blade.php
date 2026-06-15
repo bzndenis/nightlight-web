@@ -1,5 +1,6 @@
 @extends('admin.layout')
 @section('page-title', 'Dashboard')
+@section('page-subtitle', 'Overview of your guild site')
 
 @section('content')
     {{-- Welcome Hero --}}

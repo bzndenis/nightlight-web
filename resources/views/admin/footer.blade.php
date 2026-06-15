@@ -1,5 +1,6 @@
 @extends('admin.layout')
 @section('page-title', 'Footer')
+@section('page-subtitle', 'Edit footer content and links')
 
 @section('content')
     {{-- Footer Description --}}

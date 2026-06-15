@@ -1,5 +1,6 @@
 @extends('admin.layout')
 @section('page-title', 'Announcement')
+@section('page-subtitle', 'Manage homepage banner content')
 
 @section('content')
     <div class="page-header">

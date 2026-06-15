@@ -1,5 +1,6 @@
 @extends('admin.layout')
 @section('page-title', 'Gallery')
+@section('page-subtitle', 'Upload and manage gallery images')
 
 @section('content')
     <div class="glass-card">
