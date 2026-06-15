@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 
     @stack('styles')
 
@@ -187,6 +188,12 @@
             container.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
         }
+
+        // Lucide icons
+        function refreshIcons() {
+            if (window.lucide) window.lucide.createIcons();
+        }
+        refreshIcons();
     </script>
 
     @stack('scripts')

@@ -61,6 +61,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::group(['middleware' => 'auth'], function () {
         Route::get('/dashboard', function () {
             $totalMembers = \App\Models\TeamMember::where('is_active', true)->count();
+            $totalMembersAll = \App\Models\TeamMember::count();
             $publicPath = public_path();
             $totalImages = 0;
             if (is_dir($publicPath)) {
@@ -72,10 +73,24 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 }
             }
             $activeAnnouncements = \App\Models\Announcement::where('is_active', true)->count();
-            $totalFooterLinks = \App\Models\FooterLink::count();
-            return view('admin.dashboard', compact('totalMembers', 'totalImages', 'activeAnnouncements', 'totalFooterLinks'));
+            $totalFooterLinks = \App\Models\FooterLink::where('is_active', true)->count();
+            $totalFooterLinksAll = \App\Models\FooterLink::count();
+            $announcement = \App\Models\Announcement::first();
+            $recentMembers = \App\Models\TeamMember::orderByDesc('updated_at')->limit(3)->get();
+            $gallery = \App\Models\Gallery::first();
+            return view('admin.dashboard', compact(
+                'totalMembers',
+                'totalMembersAll',
+                'totalImages',
+                'activeAnnouncements',
+                'totalFooterLinks',
+                'totalFooterLinksAll',
+                'announcement',
+                'recentMembers',
+                'gallery'
+            ));
         })->name('dashboard');
-        
+
         Route::get('/announcement', function () {
             $announcement = App\Models\Announcement::first();
             if (!$announcement) {
@@ -151,7 +166,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             }
             return back()->with('success', 'Gallery updated successfully');
         })->name('gallery.update');
-        
+
         Route::post('/gallery/image', function (Illuminate\Http\Request $request) {
             try {
                 // Validate the uploaded files
@@ -178,7 +193,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 return back()->with('error', 'Upload failed: ' . $e->getMessage());
             }
         })->name('gallery.image.add');
-        
+
         Route::delete('/gallery/image/{id}', function ($id) {
             // Delete file from public directory
             $filePath = public_path($id);

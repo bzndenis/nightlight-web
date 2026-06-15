@@ -1,5 +1,5 @@
-@section('page-title', 'Footer')
 @extends('admin.layout')
+@section('page-title', 'Footer')
 
 @section('content')
     {{-- Footer Description --}}
@@ -70,5 +70,3 @@
         </div>
     </div>
 @endsection
-
-@endpush

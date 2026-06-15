@@ -1,5 +1,5 @@
-@section('page-title', 'Team')
 @extends('admin.layout')
+@section('page-title', 'Team')
 
 @section('content')
     {{-- Batch Add Form --}}
@@ -230,6 +230,4 @@ if (el) {
     });
 }
 </script>
-@endpush
-
 @endpush

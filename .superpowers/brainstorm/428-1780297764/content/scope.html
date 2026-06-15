@@ -1,0 +1,86 @@
+<h2>Apa saja yang ingin Anda perbaiki di /admin?</h2>
+<p class="subtitle">Saya menemukan beberapa masalah visual. Pilih yang menurut Anda prioritas — boleh lebih dari satu.</p>
+
+<div class="options" data-multiselect>
+
+  <div class="option" data-choice="dashboard-empty" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Dashboard kosong / stat angka 0</h3>
+      <p>Stat cards hard-code angka "0" — tidak nyambung ke database. Page header (judul + gradient line) tidak ada.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="announcement-toggle" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Announcement: toggle is_active tidak nyambung</h3>
+      <p>Toggle pakai class <code>form-group--toggle</code> yang tidak ada di CSS. Posisi toggle kurang konsisten. Tidak ada preview live.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="gallery-table" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Gallery masih tabel, bukan image grid</h3>
+      <p>Spec bilang grid 3-kolom dengan hover overlay (delete button). Sekarang masih tabel. Drop zone masih pakai hard-coded colors.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="team-headers" onclick="toggleSelect(this)">
+    <div class="letter">D</div>
+    <div class="content">
+      <h3>Team: page header hilang, sort arrow pakai HTML entity</h3>
+      <p>Page header tidak ada. Sort indicator ↑↓ masih teks polos, bukan icon. Edit modal &times; / &times; pakai entity.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="footer-headers" onclick="toggleSelect(this)">
+    <div class="letter">E</div>
+    <div class="content">
+      <h3>Footer: page header hilang, link table basic</h3>
+      <p>Sama: page header tidak ada. Tabel link tanpa hover effect konsisten. Tidak ada icon untuk kolom Name/URL.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="login-redesign" onclick="toggleSelect(this)">
+    <div class="letter">F</div>
+    <div class="content">
+      <h3>Login page tidak konsisten dengan design system</h3>
+      <p>Login masih hard-coded CSS inline (gradient + particles), beda total dengan glassmorphism. Tidak konsisten.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="icon-migration" onclick="toggleSelect(this)">
+    <div class="letter">G</div>
+    <div class="content">
+      <h3>Ganti semua HTML entity → Lucide icons</h3>
+      <p>&times;, &#8593;/&#8595;, &#10005;, &#10003;, &#128193; (📁) semua hard-coded. Ganti pakai Lucide icons biar konsisten & modern.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="responsive" onclick="toggleSelect(this)">
+    <div class="letter">H</div>
+    <div class="content">
+      <h3>Responsive/mobile belum sempurna</h3>
+      <p>Sidebar sembunyi total di mobile, tidak ada hamburger menu. Beberapa form masih kaku. Table overflow di mobile.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="polish" onclick="toggleSelect(this)">
+    <div class="letter">I</div>
+    <div class="content">
+      <h3>Polish umum: spacing, konsistensi warna/icon</h3>
+      <p>Beberapa icon pakai gradient purple, yang lain cyan — tidak konsisten. Spacing card & padding form perlu seragam.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="all" onclick="toggleSelect(this)">
+    <div class="letter">J</div>
+    <div class="content">
+      <h3>Semua — saya ingin admin sempurna</h3>
+      <p>Perbaiki semuanya sekaligus. Prioritaskan konsistensi design system & glassmorphism.</p>
+    </div>
+  </div>
+
+</div>
