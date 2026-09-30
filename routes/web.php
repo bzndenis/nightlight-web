@@ -105,18 +105,16 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::post('/announcement', function (Illuminate\Http\Request $request) {
             $announcement = App\Models\Announcement::first();
+            $data = [
+                'title' => $request->input('title'),
+                'content' => $request->input('content'),
+                'is_active' => $request->has('is_active'),
+            ];
             if ($announcement) {
-                $announcement->fill([
-                    'title' => $request->input('title'),
-                    'content' => $request->input('content')
-                ]);
+                $announcement->fill($data);
                 $announcement->save();
             } else {
-                App\Models\Announcement::create([
-                    'title' => $request->input('title'),
-                    'content' => $request->input('content'),
-                    'is_active' => true
-                ]);
+                App\Models\Announcement::create($data);
             }
             return back()->with('success', 'Announcement updated successfully');
         })->name('announcement.update');
@@ -137,12 +135,20 @@ Route::prefix('admin')->name('admin.')->group(function () {
             if (is_dir($publicPath)) {
                 $files = scandir($publicPath);
                 foreach ($files as $file) {
-                    // Only include image files
-                    if ($file !== '.' && $file !== '..' && preg_match('/\.(jpg|jpeg|png|gif)$/i', $file)) {
+                    if ($file !== '.' && $file !== '..' && preg_match('/\.(jpg|jpeg|png|gif|webp)$/i', $file)) {
+                        $fullPath = $publicPath . DIRECTORY_SEPARATOR . $file;
+                        $sizeBytes = file_exists($fullPath) ? filesize($fullPath) : 0;
+                        $sizeFormatted = $sizeBytes > 1048576 
+                            ? round($sizeBytes / 1048576, 2) . ' MB' 
+                            : round($sizeBytes / 1024, 1) . ' KB';
+                        $modifiedAt = file_exists($fullPath) ? date('M d, Y', filemtime($fullPath)) : 'Recent';
+
                         $images[] = (object)[
                             'id' => $file,
                             'filename' => $file,
-                            'path' => $file
+                            'path' => $file,
+                            'size' => $sizeFormatted,
+                            'date' => $modifiedAt,
                         ];
                     }
                 }
@@ -153,18 +159,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::post('/gallery', function (Illuminate\Http\Request $request) {
             $gallery = App\Models\Gallery::first();
+            $data = [
+                'title' => $request->title,
+                'description' => $request->description,
+                'is_active' => $request->has('is_active'),
+            ];
             if ($gallery) {
-                $gallery->title = $request->title;
-                $gallery->description = $request->description;
+                $gallery->fill($data);
                 $gallery->save();
             } else {
-                App\Models\Gallery::create([
-                    'title' => $request->title,
-                    'description' => $request->description,
-                    'is_active' => true
-                ]);
+                App\Models\Gallery::create($data);
             }
-            return back()->with('success', 'Gallery updated successfully');
+            return back()->with('success', 'Gallery settings updated successfully');
         })->name('gallery.update');
 
         Route::post('/gallery/image', function (Illuminate\Http\Request $request) {
@@ -327,14 +333,39 @@ Route::prefix('admin')->name('admin.')->group(function () {
         })->name('footer.update');
 
         Route::post('/footer/link', function (Illuminate\Http\Request $request) {
+            $request->validate([
+                'link_name' => 'required|string|max:100',
+                'link_url' => 'required|string|max:255',
+            ]);
+            $maxOrder = App\Models\FooterLink::max('order') ?? 0;
             App\Models\FooterLink::create([
-                'name' => $request->link_name,
-                'url' => $request->link_url,
-                'order' => App\Models\FooterLink::max('order') + 1,
+                'name' => trim($request->link_name),
+                'url' => trim($request->link_url),
+                'order' => $maxOrder + 1,
                 'is_active' => true
             ]);
-            return back()->with('success', 'Link added successfully');
+            return back()->with('success', 'Footer link added successfully');
         })->name('footer.link.add');
+
+        Route::put('/footer/link/{id}', function (Illuminate\Http\Request $request, $id) {
+            $link = App\Models\FooterLink::find($id);
+            if (!$link) {
+                return back()->with('error', 'Link not found');
+            }
+            $link->name = trim($request->name ?? $link->name);
+            $link->url = trim($request->url ?? $link->url);
+            $link->is_active = $request->has('is_active');
+            $link->save();
+            return back()->with('success', 'Footer link updated successfully');
+        })->name('footer.link.update');
+
+        Route::post('/footer/link/reorder', function (Illuminate\Http\Request $request) {
+            $ids = $request->input('ids', []);
+            foreach ($ids as $index => $id) {
+                App\Models\FooterLink::where('id', $id)->update(['order' => $index + 1]);
+            }
+            return response()->json(['success' => true]);
+        })->name('footer.link.reorder');
 
         Route::delete('/footer/link/{id}', function ($id) {
             $link = App\Models\FooterLink::find($id);
@@ -346,3 +377,4 @@ Route::prefix('admin')->name('admin.')->group(function () {
         })->name('footer.link.delete');
     });
 });
+
