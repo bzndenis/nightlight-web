@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
 
 // Public routes
 Route::get('/', function () {
@@ -39,14 +42,40 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::post('/login', function (Illuminate\Http\Request $request) {
-    $credentials = $request->only('email', 'password');
+    // 1. Validasi ketat input untuk menangkal malformed input / type juggling
+    $validated = $request->validate([
+        'email' => ['required', 'string', 'email', 'max:255'],
+        'password' => ['required', 'string', 'max:255'],
+    ], [
+        'email.required' => 'Email kedinasan wajib diisi.',
+        'email.email' => 'Format email tidak valid.',
+        'password.required' => 'Kata sandi wajib diisi.',
+    ]);
 
-    if (Auth::attempt($credentials)) {
-        $request->session()->regenerate();
-        return redirect()->route('admin.dashboard');
+    // 2. Anti Brute-Force Rate Limiting (Maksimal 5 percobaan per menit per email + IP)
+    $throttleKey = Str::transliterate(Str::lower($validated['email']) . '|' . $request->ip());
+
+    if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
+        $seconds = RateLimiter::availableIn($throttleKey);
+        return back()
+            ->with('error', "Terlalu banyak percobaan masuk. Akses dibatasi sementara demi keamanan. Silakan coba kembali dalam {$seconds} detik.")
+            ->withInput($request->only('email'));
     }
 
-    return back()->with('error', 'Invalid credentials');
+    // 3. Autentikasi PDO Prepared Statement (Kebal dari SQL Injection)
+    $remember = $request->boolean('remember');
+    if (Auth::attempt(['email' => $validated['email'], 'password' => $validated['password']], $remember)) {
+        RateLimiter::clear($throttleKey);
+        // Regenerasi session ID untuk menangkal Session Fixation
+        $request->session()->regenerate();
+        return redirect()->intended(route('admin.dashboard'));
+    }
+
+    RateLimiter::hit($throttleKey, 60);
+
+    return back()
+        ->with('error', 'Kombinasi email atau kata sandi tidak cocok.')
+        ->withInput($request->only('email'));
 })->name('login.submit');
 
 // Admin routes

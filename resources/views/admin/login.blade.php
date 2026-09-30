@@ -716,103 +716,10 @@
             transform: translateY(0);
         }
 
-        /* Collapsible Quick Credentials Preview (Screenshot 2 Feature!) */
-        .demo-accordion {
-            margin-top: 22px;
-            border-top: 1px solid var(--border-subtle);
-            padding-top: 16px;
-        }
-
-        .demo-toggle {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: transparent;
-            border: none;
-            color: #94a3b8;
-            font-size: 0.8rem;
-            font-weight: 600;
-            cursor: pointer;
-            padding: 4px 0;
-            transition: color 0.2s ease;
-        }
-
-        .demo-toggle:hover {
-            color: var(--accent-cyan);
-        }
-
-        .demo-toggle-left {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .demo-toggle-chevron {
-            transition: transform 0.25s ease;
-        }
-
-        .demo-accordion.is-open .demo-toggle-chevron {
-            transform: rotate(180deg);
-        }
-
-        .demo-body {
-            display: none;
-            margin-top: 12px;
-            padding: 14px;
-            background: rgba(9, 9, 20, 0.8);
-            border: 1px dashed rgba(139, 92, 246, 0.3);
-            border-radius: var(--radius-sm);
-            font-size: 0.8rem;
-            color: #cbd5e1;
-        }
-
-        .demo-accordion.is-open .demo-body {
-            display: block;
-        }
-
-        .demo-info-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 6px;
-        }
-
-        .demo-label {
-            color: #64748b;
-        }
-
-        .demo-value {
-            font-family: var(--font-mono);
-            color: var(--accent-cyan);
-        }
-
-        .btn-autofill {
-            width: 100%;
-            margin-top: 10px;
-            padding: 8px 12px;
-            border-radius: 6px;
-            background: rgba(124, 58, 237, 0.16);
-            border: 1px solid rgba(124, 58, 237, 0.35);
-            color: var(--accent-purple-glow);
-            font-size: 0.78rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: all 0.2s ease;
-        }
-
-        .btn-autofill:hover {
-            background: rgba(124, 58, 237, 0.3);
-            color: #ffffff;
-        }
-
         /* Card Sub-Footer */
         .card-foot {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 24px;
             font-size: 0.75rem;
             color: #64748b;
         }
@@ -946,11 +853,6 @@
                 flex-direction: column;
                 align-items: flex-start;
                 gap: 6px;
-            }
-
-            .demo-info-row {
-                flex-direction: column;
-                gap: 2px;
             }
         }
     </style>
@@ -1096,14 +998,14 @@
                             <div class="input-wrap">
                                 <i data-lucide="mail" class="input-icon"></i>
                                 <input type="email" id="email" name="email" class="form-input" 
-                                       value="{{ old('email', 'admin@nightlight.com') }}" required autofocus placeholder="admin@nightlight.com">
+                                       value="{{ old('email') }}" required autofocus placeholder="nama@email.com">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="form-label-wrap">
                                 <label class="form-label" for="password">Kata Sandi</label>
-                                <a href="javascript:void(0)" onclick="alert('Silakan hubungi Guild Master utama atau cek kredensial pengujian cepat di bawah.');" class="form-link">Lupa kata sandi?</a>
+                                <a href="javascript:void(0)" onclick="alert('Silakan hubungi Superadmin / Guild Master utama untuk pengaturan ulang akun.');" class="form-link">Lupa kata sandi?</a>
                             </div>
                             <div class="input-wrap">
                                 <i data-lucide="lock" class="input-icon"></i>
@@ -1136,36 +1038,6 @@
                             <i data-lucide="arrow-right" style="width:18px;height:18px;"></i>
                         </button>
                     </form>
-
-                    {{-- Collapsible Quick Credentials Preview (Just like in Reference Screenshot 2!) --}}
-                    <div class="demo-accordion" id="demoAccordion">
-                        <button type="button" class="demo-toggle" id="demoToggle">
-                            <span class="demo-toggle-left">
-                                <i data-lucide="key" style="width:14px;height:14px;color:var(--accent-cyan);"></i>
-                                <span>Kredensial Pengujian Cepat [Role Preview]</span>
-                            </span>
-                            <i data-lucide="chevron-down" class="demo-toggle-chevron" style="width:14px;height:14px;"></i>
-                        </button>
-
-                        <div class="demo-body">
-                            <div class="demo-info-row">
-                                <span class="demo-label">Hak Akses:</span>
-                                <span class="demo-value" style="color:var(--accent-purple-glow); font-weight:700;">Guild Master / Superadmin</span>
-                            </div>
-                            <div class="demo-info-row">
-                                <span class="demo-label">Email:</span>
-                                <span class="demo-value">admin@nightlight.com</span>
-                            </div>
-                            <div class="demo-info-row">
-                                <span class="demo-label">Kata Sandi:</span>
-                                <span class="demo-value">admin123</span>
-                            </div>
-                            <button type="button" class="btn-autofill" id="autofillBtn">
-                                <i data-lucide="zap" style="width:13px;height:13px;"></i>
-                                <span>Gunakan Kredensial Ini</span>
-                            </button>
-                        </div>
-                    </div>
 
                     <div class="card-foot">
                         NightLight Guild Administration &bull; Kawasan Terproteksi
@@ -1213,31 +1085,7 @@
                 submitBtn.innerHTML = '<span>Mengautentikasi...</span>';
             });
 
-            // 2. Demo Accordion Toggle & 1-Click Autofill
-            const demoToggle = document.getElementById('demoToggle');
-            const demoAccordion = document.getElementById('demoAccordion');
-            const autofillBtn = document.getElementById('autofillBtn');
-            const emailInput = document.getElementById('email');
-
-            demoToggle?.addEventListener('click', () => {
-                demoAccordion.classList.toggle('is-open');
-            });
-
-            autofillBtn?.addEventListener('click', () => {
-                emailInput.value = 'admin@nightlight.com';
-                pwInput.value = 'admin123';
-                pwInput.focus();
-                
-                // Flash feedback
-                autofillBtn.innerHTML = '<i data-lucide="check" style="width:13px;height:13px;"></i><span>Kredensial Diisi!</span>';
-                if (window.lucide) lucide.createIcons();
-                setTimeout(() => {
-                    autofillBtn.innerHTML = '<i data-lucide="zap" style="width:13px;height:13px;"></i><span>Gunakan Kredensial Ini</span>';
-                    if (window.lucide) lucide.createIcons();
-                }, 1800);
-            });
-
-            // 3. Animated 3D Wave Wireframe Mesh with Particles on Canvas
+            // 2. Animated 3D Wave Wireframe Mesh with Particles on Canvas
             const canvas = document.getElementById('bgCanvas');
             const ctx = canvas.getContext('2d');
 
