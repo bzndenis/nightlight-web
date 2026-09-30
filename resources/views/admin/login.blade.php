@@ -850,12 +850,18 @@
         @media (max-width: 1120px) {
             .login-grid {
                 grid-template-columns: 1fr;
-                gap: 40px;
-                max-width: 600px;
+                gap: 32px;
+                max-width: 520px;
                 margin: 0 auto;
             }
 
+            .login-card-wrap {
+                order: 1;
+                width: 100%;
+            }
+
             .showcase {
+                order: 2;
                 padding-right: 0;
                 text-align: center;
                 align-items: center;
@@ -872,16 +878,22 @@
 
             .showcase-footer {
                 width: 100%;
+                justify-content: center;
             }
         }
 
         @media (max-width: 768px) {
             .login-page {
-                padding: 20px 16px;
+                padding: 16px 14px 28px;
             }
 
             .login-card {
-                padding: 26px 20px;
+                padding: 24px 18px;
+                border-radius: var(--radius-md);
+            }
+
+            .form-input {
+                font-size: 16px !important; /* Prevents auto-zoom on iOS Safari */
             }
 
             .feature-card {
@@ -889,17 +901,56 @@
             }
 
             .showcase-title {
-                font-size: 2rem;
+                font-size: 1.85rem;
             }
 
             .showcase-desc {
-                font-size: 0.9rem;
+                font-size: 0.88rem;
+            }
+
+            .showcase-badge {
+                font-size: 0.72rem;
+                padding: 5px 10px;
+                max-width: 100%;
+            }
+
+            .showcase-stats {
+                gap: 16px;
+            }
+
+            .stat-value {
+                font-size: 1.25rem;
             }
 
             .login-page-footer {
                 flex-direction: column;
                 text-align: center;
                 gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-card-header {
+                margin-bottom: 20px;
+            }
+
+            .card-title {
+                font-size: 1.35rem;
+            }
+
+            .card-desc {
+                font-size: 0.8rem;
+            }
+
+            .security-stamp {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+
+            .demo-info-row {
+                flex-direction: column;
+                gap: 2px;
             }
         }
     </style>

@@ -18,7 +18,7 @@
         </div>
     </div>
 
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start;" class="announcement-grid">
+    <div class="announcement-grid">
         {{-- Left Column: Editor Form --}}
         <div class="glass-card" data-aos="fade-up">
             <div class="card-header">
@@ -75,7 +75,7 @@
                     </div>
                 </div>
 
-                <div style="display:flex; align-items:center; gap:12px; margin-top:24px;">
+                <div class="form-actions-row" style="display:flex; align-items:center; gap:12px; margin-top:24px;">
                     <button type="submit" class="btn btn-primary" id="saveBtn">
                         <i data-lucide="save"></i>
                         <span>Save & Publish</span>

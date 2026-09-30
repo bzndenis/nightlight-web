@@ -29,7 +29,7 @@
     </div>
 
     {{-- Stats Row --}}
-    <div class="stat-grid" style="grid-template-columns: repeat(3, 1fr);" data-aos="fade-up">
+    <div class="stat-grid stat-grid--3" data-aos="fade-up">
         <div class="stat-card stat-card--purple">
             <div class="stat-card__top">
                 <div class="stat-icon"><i data-lucide="users"></i></div>
@@ -159,7 +159,7 @@
                 <button type="button" class="filter-btn" data-filter="inactive">Inactive ({{ $inactiveCount }})</button>
             </div>
 
-            <div style="display:flex; align-items:center; gap:12px; margin-left:auto;">
+            <div class="toolbar__actions">
                 <span class="badge badge--cyan" style="display:inline-flex; align-items:center; gap:5px;">
                     <i data-lucide="grip-vertical" style="width:13px; height:13px;"></i>
                     <span>Drag rows to reorder</span>

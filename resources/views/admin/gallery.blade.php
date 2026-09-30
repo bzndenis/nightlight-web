@@ -126,7 +126,7 @@
                 <input type="text" id="gallerySearchInput" placeholder="Filter images by filename...">
             </div>
 
-            <div style="display:flex; align-items:center; gap:14px;">
+            <div class="toolbar__actions">
                 <span class="badge badge--purple" id="galleryCountBadge">
                     {{ count($images ?? []) }} {{ Str::plural('Image', count($images ?? [])) }}
                 </span>

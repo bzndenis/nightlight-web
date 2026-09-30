@@ -41,6 +41,7 @@
     <div class="admin-shell">
 
         @include('admin.partials.sidebar')
+        <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
         <div class="admin-shell__main" id="adminMain">
 
